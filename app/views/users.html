@@ -1,0 +1,78 @@
+<div class="aui-group">
+	<h4>Users</h4>
+	<div class="aui-group">
+		<form action="" class="aui">
+			<button class="aui-button inline-button">Make Admin</button>
+			<button class="aui-button inline-button">Remove Admin</button>
+			<button class="aui-button inline-button">Remove from Network</button>
+		</form>	
+	</div>
+
+</div>
+<div class="aui-group">
+	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default">
+		<thead>
+			<tr class="tablesorter-headerRow">
+				<th>
+					<div class="table-sorter-header-inner">
+						<input type="checkbox" class="checkbox">
+					</div>
+				</th>
+				<th class="tablesorter-header" 
+					ng-click="reverse=!reverse;orderField='email'" 
+					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+					<div class="tablesorter-header-inner">
+						<span class="aui-table-header-content">Name</span>
+					</div>
+				</th>
+				<th class="tablesorter-header" 
+					ng-click="reverse=!reverse;orderField='role'" 
+					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+					<div class="tablesorter-header-inner">
+						<span class="aui-table-header-content">Role</span>
+					</div>
+				</th>				
+				<th>
+					<div class="tablesorter-header-inner">Licenses</div>
+				</th>
+				<th>
+					<div class="tablesorter-header-inner">Actions</div>
+				</th>				
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in users | orderBy:orderField:reverse | limit:pagination.offset:pagination.limit">
+				<td>
+					<input type="checkbox" class="checkbox" ng-model="user.checked">
+				</td>
+				<td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+				<td>{{ user.role }}</td>
+				<td></td>
+				<td class="aui-compact-button-column">
+					<div class="inline-actions">
+						<button class="aui-button aui-button-compact">
+							<span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span>
+						</button>					
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>	
+</div>
+<div class="aui-group aui-group-split">
+	<div class="aui-item">
+		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}</p>
+	</div>
+	<div class="aui-item" ng-show="pagination.num_pages > 1">
+		<ol class="aui-nav aui-nav-pagination fr">
+			<li ng-show="pagination.first" class="aui-nav-first"><a href="#/users?page=1">First</a></li>
+			<li ng-show="pagination.prev" class="aui-nav-previous"><a ng-href="#/users?page={{ pagination.prev }}">Previous</a></li>
+			<li ng-repeat="i in pagination.page_numbers()" ng-class="{ 'aui-nav-selected': i == pagination.current_page }">
+				<a ng-show="i != pagination.current_page" ng-href="#/users?page={{ i }}">{{ i }}</a>
+				<span ng-show="i == pagination.current_page">{{ i }}</span>
+			</li>
+			<li ng-show="pagination.next" class="aui-nav-next"><a ng-href="#/users?page={{ pagination.next }}">Next</a></li>			
+			<li ng-show="pagination.last" class="aui-nav-last"><a ng-href="#/users?page={{ pagination.last }}">Last</a></li>
+		</ol>
+	</div>
+</div>

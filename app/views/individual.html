@@ -1,0 +1,59 @@
+<div class="aui-group">
+	<h4>Email Addresses Allowed into the network <span class="aui-icon aui-icon-small aui-iconfont-help">?</span></h4>
+	<div class="aui-group">
+		<div class="add-block">
+			<form action="" class="aui aui-group">
+				<input type="text" class="text" name="domainentry" ng-model="entry">
+				<button class="aui-button inline-button" ng-click="add()">Add</button>
+			</form>
+		</div>			
+	</div>
+
+</div>
+<div class="aui-group">
+	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default">
+		<thead>
+			<tr class="tablesorter-headerRow">
+				<th class="tablesorter-header" 
+					ng-click="reverse=!reverse" 
+					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+					<div class="tablesorter-header-inner">
+						<span class="aui-table-header-content">Domain</span>
+					</div>
+				</th>
+				<th>
+					<div class="tablesorter-header-inner">Actions</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="individual in individuals | orderBy:'email':reverse | limit:pagination.offset:pagination.limit">
+				<td><a href="">{{ individual.email }}</a></td>
+				<td class="aui-compact-button-column">
+					<div class="inline-actions">
+						<button class="aui-button aui-button-compact" ng-click="remove(individual)">
+							<span class="aui-icon aui-icon-small aui-iconfont-remove">Remove</span>
+						</button>					
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>	
+</div>
+<div class="aui-group aui-group-split">
+	<div class="aui-item">
+		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}</p>
+	</div>
+	<div class="aui-item" ng-show="pagination.num_pages > 1">
+		<ol class="aui-nav aui-nav-pagination fr">
+			<li ng-show="pagination.first" class="aui-nav-first"><a href="#/individual?page=1">First</a></li>
+			<li ng-show="pagination.prev" class="aui-nav-previous"><a ng-href="#/individual?page={{ pagination.prev }}">Previous</a></li>
+			<li ng-repeat="i in pagination.page_numbers()" ng-class="{ 'aui-nav-selected': i == pagination.current_page }">
+				<a ng-show="i != pagination.current_page" ng-href="#/individual?page={{ i }}">{{ i }}</a>
+				<span ng-show="i == pagination.current_page">{{ i }}</span>
+			</li>
+			<li ng-show="pagination.next" class="aui-nav-next"><a ng-href="#/individual?page={{ pagination.next }}">Next</a></li>			
+			<li ng-show="pagination.last" class="aui-nav-last"><a ng-href="#/individual?page={{ pagination.last }}">Last</a></li>
+		</ol>
+	</div>	
+</div>
