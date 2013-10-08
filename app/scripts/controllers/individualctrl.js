@@ -1,9 +1,8 @@
+/* global _ */
+
 angular.module('UserAdminApp').controller('IndividualCtrl', [ 
 	'$scope', 'RestIndividual', 'Util',
 	function ($scope, RestIndividual, Util) {
-
-
-	'use strict';
 
 
     // ===============================================================================

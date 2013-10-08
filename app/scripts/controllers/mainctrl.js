@@ -3,9 +3,6 @@ angular.module('UserAdminApp').controller('MainCtrl', [
 	function ($scope, $location, RestNetwork, CookieStorage) {
 
 
-	'use strict'; 
-
-
 	/*
 	 * Get the currently logged in User ID from the server-set cookie
 	 * TODO: Institute fallback in case this value is not present
@@ -27,7 +24,7 @@ angular.module('UserAdminApp').controller('MainCtrl', [
 	 * Get the currently selected network object (for child scopes)
 	 */
 	$scope.getNetwork = function () {
-		return $scope.networks[parseInt($scope.networkIndex)];
+		return $scope.networks[parseInt($scope.networkIndex, 10)];
 	};
 
 	/*

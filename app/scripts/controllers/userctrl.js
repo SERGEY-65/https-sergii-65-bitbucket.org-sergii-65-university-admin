@@ -3,9 +3,6 @@ angular.module('UserAdminApp').controller('UserCtrl', [
 	function ($scope, RestUser, Util) {
 
 
-	'use strict';
-
-
     // ===============================================================================
     // SCOPE VALUES
     // ===============================================================================
@@ -140,7 +137,7 @@ angular.module('UserAdminApp').controller('UserCtrl', [
 			email: 'asdf@agggggggggggn.com',
 			role: 'user'
 		}												
-	]
+	];
 
 	$scope.pagination = Util.paginate({
 		items: $scope.users

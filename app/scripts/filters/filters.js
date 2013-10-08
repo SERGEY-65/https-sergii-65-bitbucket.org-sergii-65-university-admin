@@ -1,5 +1,6 @@
-angular.module('UserAdminApp')
+/* global _ */
 
+angular.module('UserAdminApp')
 
 /*
  * Filter array with limit and offset values
@@ -14,4 +15,4 @@ angular.module('UserAdminApp')
 		}
 		return [];
 	};
-})
+});

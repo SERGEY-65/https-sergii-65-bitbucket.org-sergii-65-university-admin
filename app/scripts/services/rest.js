@@ -9,17 +9,19 @@ angular.module('UserAdminApp')
  * Base domain url for all RESTful resources. Is aware of the environment
  * it is running in, and will return the appropriate base url for that env
  */
-.factory('RestBaseUrl', [ '$location', 
+.factory('RestBaseUrl', [ '$location',
 	function ($location) {
 
-	var host = $location.host(),
-		base_url = 'production url here';
+	'use strict';
 
-	if (host === 'university.atlassian.net') {
-		base_url = 'http://university.atlassian.net/api';
+	var host = $location.host(),
+		baseUrl = 'http://university.atlassian.com/api';
+
+	if (_.contains([ 'university.atlassian.net', 'localhost' ], host)) {
+		baseUrl = 'http://university.atlassian.net/api';
 	}
 
-	return base_url;
+	return baseUrl;
 }])
 
 
@@ -29,6 +31,8 @@ angular.module('UserAdminApp')
  */
 .factory('RestNetwork', [ '$resource', 'RestBaseUrl',
 	function ($resource, RestBaseUrl) {
+
+	'use strict';
 
 	return $resource(
 		RestBaseUrl + '/networks-users/:user',
@@ -72,6 +76,8 @@ angular.module('UserAdminApp')
 .factory('RestDomain', [ '$resource', 'RestBaseUrl',
 	function ($resource, RestBaseUrl) {
 
+	'use strict';
+
 	return $resource(
 		RestBaseUrl + '/:network/domains/:id/:action',
 		{
@@ -88,6 +94,8 @@ angular.module('UserAdminApp')
  */
 .factory('RestIndividual', [ '$resource', 'RestBaseUrl',
 	function ($resource, RestBaseUrl) {
+
+	'use strict';
 
 	return $resource(
 		RestBaseUrl + '/:network/individual/:id/:action',
@@ -106,6 +114,8 @@ angular.module('UserAdminApp')
 .factory('RestUser', [ '$resource', 'RestBaseUrl',
 	function ($resource, RestBaseUrl) {
 
+	'use strict';
+
 	return $resource(
 		RestBaseUrl + '/networks-users/:network/:user',
 		{
@@ -122,6 +132,8 @@ angular.module('UserAdminApp')
 .factory('RestLicense', [ '$resource', 'RestBaseUrl',
 	function ($resource, RestBaseUrl) {
 
+	'use strict';
+
 	return $resource(
 		RestBaseUrl + '/network-sens/:network/',
 		{
@@ -136,6 +148,8 @@ angular.module('UserAdminApp')
  */
 .factory('RestCourses', [ '$resource', 'RestBaseUrl',
 	function ($resource, RestBaseUrl) {
+
+	'use strict';
 
 	return $resource(
 		RestBaseUrl + '/product-courses/:product',

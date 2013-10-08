@@ -1,9 +1,9 @@
+/* global _ */
+
 angular.module('UserAdminApp').controller('DomainCtrl', [ 
 	'$scope', 'RestDomain', 'Util',
 	function ($scope, RestDomain, Util) {
 
-
-	'use strict';
 
 
     // ===============================================================================

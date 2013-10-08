@@ -1,3 +1,6 @@
+/* global _ */
+
+
 'use strict';
 
 
@@ -16,22 +19,22 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 	 */
 	if (_.contains(['localhost', 'pperry', 'willyp', 'davep' ], $location.host())) {
 		User.environment({
-			api: 'https://id.stg.iam.atlassian.com',
-			id:  'https://id.stg.iam.atlassian.com'
+			api:	'https://id.stg.iam.atlassian.com',
+			id:		'https://id.stg.iam.atlassian.com'
 		});
 
 	} else if ($location.host() === 'qa-wac.internal.atlassian.com') {
 		User.environment({
-			api:   'https://qa-wac.internal.atlassian.com/lasso',
-			id:    'https://id.stg.iam.atlassian.com',
-			gapps: 'https://qa-wac.internal.atlassian.com/googleAuthSessionData'			
+			api:	'https://qa-wac.internal.atlassian.com/lasso',
+			id:		'https://id.stg.iam.atlassian.com',
+			gapps:	'https://qa-wac.internal.atlassian.com/googleAuthSessionData'			
 		});	
 
 	} else if ($location.host() === 'dev-cart.atlassian.com') {
 		User.environment({
-			api:   'http://dev-cart.atlassian.com/lasso',
-			id:    'http://dev-cart.atlassian.com/id',
-			gapps: 'http://dev-cart.atlassian.com/gapps'			
+			api:	'http://dev-cart.atlassian.com/lasso',
+			id:		'http://dev-cart.atlassian.com/id',
+			gapps:	'http://dev-cart.atlassian.com/gapps'			
 		});
 	}		
 
@@ -82,9 +85,37 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 
 
 	/*
+	 * Empty user object as used throughout Lasso service. Should be the default
+	 * for signed out user
+	 */
+	var createEmptyUser = function () {
+		return {
+			contactDetails: {
+				firstName: '',
+				lastName: '',
+				email: ''				
+			},
+			exists: false,
+			xsrfToken: null,
+			organisationDetails: {
+				address1: '',
+				address2: '',
+				city: '',
+				state: '',
+				postcode: '',
+				isoCountryCode: '',
+				organisationName: '',
+				organisationType: null,
+				taxId: ''				
+			},
+			gappsData: null 
+		};
+	};
+
+	/*
 	 * Lasso urls:
-	 * 1. api    - the Lasso rest API. proxied. 
-	 * 2. id     - xsrf token iframe url. proxied.
+	 * 1. api	- the Lasso rest API. proxied. 
+	 * 2. id	 - xsrf token iframe url. proxied.
 	 * 3. gapps  - rest API url for validating google apps token. proxied.
 	 * 4. interceptor - login & logout lasso interceptor. not proxied.
 	 */
@@ -115,35 +146,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 		}	
 	}
 
-	/*
-	 * Empty user object as used throughout Lasso service. Should be the default
-	 * for signed out user
-	 */
-	function createEmptyUser () {
-		return {
-			contactDetails: {
-				firstName: '',
-				lastName: '',
-				email: ''				
-			},
-			exists: false,
-			xsrfToken: null,
-			organisationDetails: {
-				address1: '',
-				address2: '',
-				city: '',
-				state: '',
-				postcode: '',
-				isoCountryCode: '',
-				organisationName: '',
-				organisationType: null,
-				taxId: ''				
-			},
-			gappsData: null 
-		}
-	};
-
-	function LassoErrorCallback (data, status, headers, config) {
+	function lassoErrorCallback (data, status, headers) {
 		var reason;
 		deAuthenticate();
 		if (headers('Content-Type') === 'application/json' && _.has(data, 'error')) {
@@ -189,32 +192,32 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 			return USER.exists;
 		},
 
-        /*
-         * Google apps OpenID handshake. If the global value is currently null, it will try to instantiate
-         * it with the provided token. If no token is provided, it will assume no connection, and supplement
-         * with the falsy version of the data. Create a new GAPPS token on staging at
-         * http://intsys-staging.private.atlassian.com:8481/my/googleAuth/domain
-         */
-        gappsData: function () {
+		/*
+		 * Google apps OpenID handshake. If the global value is currently null, it will try to instantiate
+		 * it with the provided token. If no token is provided, it will assume no connection, and supplement
+		 * with the falsy version of the data. Create a new GAPPS token on staging at
+		 * http://intsys-staging.private.atlassian.com:8481/my/googleAuth/domain
+		 */
+		gappsData: function () {
 
-        	var deferred = $q.defer();
+			var deferred = $q.defer();
 
-		    if (_.has($location.search(), 'gappsToken') && !USER.gappsData) {
-		        $http.get(ENVIRONMENT.gapps + '/' + $location.search().gappsToken)
-		            .success(function (data) {
-		                USER.gappsData = data;
-		                USER.gappsData.token = $location.search().gappsToken;
-		                deferred.resolve(USER.gappsData);
-		            })       
-		            .error(function () {
-		            	deferred.resolve(USER.gappsData);
-		            });
+			if (_.has($location.search(), 'gappsToken') && !USER.gappsData) {
+				$http.get(ENVIRONMENT.gapps + '/' + $location.search().gappsToken)
+					.success(function (data) {
+						USER.gappsData = data;
+						USER.gappsData.token = $location.search().gappsToken;
+						deferred.resolve(USER.gappsData);
+					})	   
+					.error(function () {
+						deferred.resolve(USER.gappsData);
+					});
 
-		    } else {
-		    	deferred.resolve(USER.gappsData);
-		    }
-            return deferred.promise;
-        },			
+			} else {
+				deferred.resolve(USER.gappsData);
+			}
+			return deferred.promise;
+		},			
 
 		/*
 		 * Getter | Setter for organisation details object above.
@@ -246,7 +249,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 		 * https://extranet.atlassian.com/display/IT/New+Order+Form+APIs
 		 * UPDATED: https://extranet.atlassian.com/display/IT/Lasso+API#LassoAPI-3.FetchDetailsforCurrentUser
 		 */
-		getInformation: function (providedOpts) {
+		getInformation: function () {
 
 			var deferred = $q.defer();
 
@@ -273,7 +276,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 					withCredentials: true
 
 				// If successful, update the USER object, add to localStorage and broadcast the login event
-				}).success(function (data, status, headers, config) {
+				}).success(function (data, status, headers) {
 					if (status === 200 && headers('Content-Type') === 'application/json;charset=UTF-8') {
 						_.extend(USER.contactDetails, data.contactDetails);
 						_.extend(USER.organisationDetails, data.organisationDetails);
@@ -285,9 +288,9 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 					// If failure in any way, deauthenticate and reject the deferred object
 					} else {
 						deferred.reject();
-						LassoErrorCallback(data, status, headers, config);
+						lassoErrorCallback (data, status, headers);
 					}
-				}).error(LassoErrorCallback);
+				}).error(lassoErrorCallback);
 			}
 
 			return deferred.promise;	
@@ -333,7 +336,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 						USER.exists = data.exists;
 						deferred.resolve(data);
 					})
-					.error(function (data) {
+					.error(function () {
 						deferred.reject({ exists: false });
 					});				
 			} else {
@@ -356,7 +359,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
  * 		lasso-login 									
  * 		theme="button|link"	  // the link to login can be a text link or a green button. Defaults to 'button' 
  * 		text="link text"	  // the text in the link or button. Defaults to 'Log In'
- *      size="small|inline"	      // optional: additional button classes
+ *	  size="small|inline"		  // optional: additional button classes
  * ></div>
  */
 .directive('lassoLogin', function (User, $window, $location) {
@@ -368,7 +371,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 			text: '@',
 			size: '@'
 		},
-		link: function (scope, element, attrs) {
+		link: function (scope) {
 			scope.login = function () {
 				$window.location.href = User.environment().id + '/id/login.action?continue=' + $location.absUrl();
 			};

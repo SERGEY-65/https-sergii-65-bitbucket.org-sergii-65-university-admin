@@ -1,3 +1,5 @@
+/* global _, escape, unescape */
+
 'use strict';
 
 
@@ -29,16 +31,16 @@ angular.module('Storage', [])
 		}
 		if (_.contains(['localStorage', 'sessionStorage'], storageType)) {
 			try {
-				browserSupport[storageType] = typeof $window[storageType] === 'object' 
-					&& typeof $window[storageType]['setItem'] === 'function'
-					&& typeof $window[storageType]['getItem'] === 'function'
-					&& typeof $window[storageType]['clear'] === 'function';
+				browserSupport[storageType] = typeof $window[storageType] === 'object' && 
+					typeof $window[storageType].setItem === 'function' && 
+					typeof $window[storageType].getItem === 'function' && 
+					typeof $window[storageType].clear   === 'function';
 			} catch (e) {
 				browserSupport[storageType] = false;
 			}
 		} else if (storageType === 'cookie') {
 			try {
-				browserSupport.cookie = typeof $document[0]['cookie'] === 'string';
+				browserSupport.cookie = typeof $document[0].cookie === 'string';
 			} catch (e) {
 				browserSupport.cookie = false;
 			}
@@ -85,16 +87,18 @@ angular.module('Storage', [])
 		 * Add cookie value. Accepts a hash of cookie options to set, or
 		 * uses default values if not provided.
 		 */
-	 	setCookie: function (key, value, providedOptions) {
+		setCookie: function (key, value, providedOptions) {
 
-	 		var options = {
-	 			end: Infinity,
-	 			path: '/',
-	 			domain: '.atlassian.com'
-	 		};
+			var options = {
+				end: Infinity,
+				path: '/',
+				domain: '.atlassian.com'
+			};
 
-	 		if (supports('cookie')) {
-		 		if (providedOptions) options = _.extend(options, providedOptions);
+			if (supports('cookie')) {
+				if (providedOptions) {
+					options = _.extend(options, providedOptions);
+				}
 				switch (options.end.constructor) {
 					case Number:
 						options.end = options.end === Infinity ? '; expires=Fri, 31 Dec 9999 23:59:59 GMT' : '; max-age=' + options.end;
@@ -105,37 +109,37 @@ angular.module('Storage', [])
 					case Date:
 						options.end = '; expires=' + options.end.toGMTString();
 						break;
-				};
+				}
 
-		 		$document[0].cookie = escape(key) 
-					+ '=' 
-					+ escape(value)
-					+ options.end
-					+ '; domain=' + options.domain
-					+ '; path=' + options.path;		
-	 		}
-	 	},
+				$document[0].cookie = escape(key) + 
+				'=' + 
+				escape(value) + 
+				options.end + 
+				'; domain=' + options.domain + 
+				'; path=' + options.path;
+			}
+		},
 
-	 	/*
-	 	 * Retrieve a cookie value.
-	 	 * Regex shamelessly stolen from https://developer.mozilla.org/en-US/docs/Web/API/document.cookie
-	 	 */
-	 	getCookie: function (key) {
+		/*
+		 * Retrieve a cookie value.
+		 * Regex shamelessly stolen from https://developer.mozilla.org/en-US/docs/Web/API/document.cookie
+		 */
+		getCookie: function (key) {
 			return unescape($document[0].cookie
-				.replace(new RegExp("(?:(?:^|.*;)\\s*" + escape(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
-	 	},
+				.replace(new RegExp('(?:(?:^|.*;)\\s*' + escape(key).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
+		},
 
-	 	/*
-	 	 * Clear a cookie by updating its expiry to an expired date
-	 	 * Also shamelessly stolen from https://developer.mozilla.org/en-US/docs/Web/API/document.cookie
-	 	 */
-	 	clearCookie: function (key) {
-	 		var regex =  new RegExp("(?:^|;\\s*)" + escape(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=");
-	 		if (regex.test($document[0].cookie)) {
-	 			this.setCookie(key, '', { end: 'Thu, 01 Jan 1970 00:00:00 GMT' });
-	 		}
-	 	}
-	 };
+		/*
+		 * Clear a cookie by updating its expiry to an expired date
+		 * Also shamelessly stolen from https://developer.mozilla.org/en-US/docs/Web/API/document.cookie
+		 */
+		clearCookie: function (key) {
+			var regex =  new RegExp('(?:^|;\\s*)' + escape(key).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=');
+			if (regex.test($document[0].cookie)) {
+				this.setCookie(key, '', { end: 'Thu, 01 Jan 1970 00:00:00 GMT' });
+			}
+		}
+	};
 }])
 
 
@@ -156,8 +160,7 @@ angular.module('Storage', [])
 			ageInDays = (new Date() - timestamp) / 1000 / 60 / 60 / 24;
 		if (ageInDays > 30) {
 			try {
-				localStorage.removeItem(prefix);
-				localStorage.clear();
+				BrowserStorage.clear('localStorage');
 			} catch (e) {}
 		} else {
 			STORAGE_OBJECT = priorStorage;
@@ -345,5 +348,5 @@ angular.module('Storage', [])
 				elm.bind('change', addToSessionStorage);
 			}
 		}
-	}
+	};
 });

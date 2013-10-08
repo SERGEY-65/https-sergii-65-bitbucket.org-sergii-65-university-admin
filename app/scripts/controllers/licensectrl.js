@@ -3,8 +3,7 @@ angular.module('UserAdminApp').controller('LicenseCtrl', [
 	function ($scope, RestLicense) {
 
 
-	'use strict';
-
+	$scope.liceneses = RestLicense.query();
 
 
 
