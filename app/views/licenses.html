@@ -1,14 +1,14 @@
 <div class="aui-group">
-	<div class="aui-item">
+	<div class="aui-item" ng-repeat="license in licenses | orderBy:id">
 		<div class="course-container">
-			<h2>JIRA</h2>
-			<form action="" class="aui">
+			<h2 ng-bind-html-unsafe="license.productName"></h2>
+			<form action="" class="aui" ng-show="license.purchased">
 				<fieldset class="group">
 					<legend><span>Visible Courses:</span></legend>
 					<div class="checkbox">
 						<input type="checkbox" class="checkbox">
 						<label for="">JIRA 6.0</label>
-					</div>						
+					</div>
 					<div class="checkbox">
 						<input type="checkbox" class="checkbox">
 						<label for="">JIRA 5.2</label>
@@ -25,34 +25,36 @@
 				<fieldset>
 					<div class="field-group">
 						<label for="">License Size:</label>
-						<input type="text" class="text non-editable" value="50 users">
+						<input type="text" class="text non-editable" value="{{ license.sen.license_type }} users">
 					</div>
 					<div class="field-group">
-						<label for="">Licenses Used:</label>
-						<input type="text" class="text non-editable" value="50">
-					</div>					
-					<div class="field-group">
 						<label for="">SEN:</label>
-						<input type="text" class="text non-editable" value="123456687">
-					</div>					
+						<input type="text" class="text non-editable" value="{{ license.sen.sen }}">
+					</div>
 					<div class="field-group">
 						<label for="">Expiration Date:</label>
-						<input type="text" class="text non-editable" value="12/22/2015">
-					</div>					
-					<div class="field-group">
-						<label for="">Tech Contact:</label>
-						<input type="email" class="text non-editable" value="jkatz@atlassian.com">
-					</div>					
+						<input type="text" class="text non-editable" value="{{ license.sen.expiration }}">
+					</div>
 				</fieldset>
+			</form>
+			<div class="aui-message hint" ng-show="!license.purchased">
+			    <p class="title">
+			        <span class="aui-icon icon-hint "></span>
+			        <strong>Info</strong>
+			    </p>
+			    <p>You haven't purchased University for {{ license.productName }}</p>
+			</div>
+			<form class="aui">
 				<fieldset>
 					<div class="field-group">
-						<button class="aui-button">Renew/Upgrade</button>	
+						<button class="aui-button" ng-show="license.purchased">Renew/Upgrade</button>
+						<button class="aui-button" ng-show="!license.purchased">Buy</button>
 					</div>
 				</fieldset>
 			</form>
 		</div>
 	</div>
-	<div class="aui-item">
+<!-- 	<div class="aui-item">
 		<div class="course-container">
 			<h2>JIRA Agile <small>(formerly Greenhopper)</small></h2>
 			<form action="" class="aui">
@@ -61,7 +63,7 @@
 					<div class="checkbox">
 						<input type="checkbox" class="checkbox">
 						<label for="">JIRA Agile 6.0</label>
-					</div>						
+					</div>
 					<div class="checkbox">
 						<input type="checkbox" class="checkbox">
 						<label for="">GreenHopper 5.2</label>
@@ -80,29 +82,29 @@
 						<label for="">License Size:</label>
 						<input type="text" class="text non-editable" value="50 users">
 					</div>
-					<div class="field-group">
+		<!-- 					<div class="field-group">
 						<label for="">Licenses Used:</label>
 						<input type="text" class="text non-editable" value="50">
-					</div>					
+					</div> - ->
 					<div class="field-group">
 						<label for="">SEN:</label>
 						<input type="text" class="text non-editable" value="123456687">
-					</div>					
+					</div>
 					<div class="field-group">
 						<label for="">Expiration Date:</label>
 						<input type="text" class="text non-editable" value="12/22/2015">
-					</div>					
-					<div class="field-group">
+					</div>
+		<!-- 					<div class="field-group">
 						<label for="">Tech Contact:</label>
 						<input type="email" class="text non-editable" value="jkatz@atlassian.com">
-					</div>					
+					</div> - ->
 				</fieldset>
 				<fieldset>
 					<div class="field-group">
-						<button class="aui-button">Renew/Upgrade</button>	
+						<button class="aui-button">Renew/Upgrade</button>
 					</div>
 				</fieldset>
-			</form>			
+			</form>
 		</div>
 	</div>
 	<div class="aui-item">
@@ -114,7 +116,7 @@
 			        <strong>Info</strong>
 			    </p>
 			    <p>You haven't purchased University for Confluence</p>
-			</div>		
+			</div>
 			<form action="" class="aui">
 				<fieldset>
 					<div class="field-group">
@@ -123,5 +125,5 @@
 				</fieldset>
 			</form>
 		</div>
-	</div>
+	</div> -->
 </div>

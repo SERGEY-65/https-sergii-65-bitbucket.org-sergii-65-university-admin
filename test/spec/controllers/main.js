@@ -8,7 +8,7 @@ describe('Controller: MainCtrl', function() {
 
   beforeEach(module('UserAdminApp'));
 
-  var MainCtrl, $scope, $location, RestNetwork, CookieStorage;
+  var MainCtrl, $scope, $location, RestNetwork;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function($controller, $injector) {
@@ -20,7 +20,7 @@ describe('Controller: MainCtrl', function() {
       query: function () {
         return [1,2,3];
       }
-    }
+    };
 
     spyOn(RestNetwork, 'query').andCallThrough();
 
@@ -52,12 +52,12 @@ describe('Controller: MainCtrl', function() {
   it('The first page should be domains, and should be selected', function () {
     expect($scope.pages[0].name).toBe('Domain Access');
     expect($scope.pages[1].name).toBe('Individual Access');
-    expect($scope.pages[0].selected).toBeTruthy();    
+    expect($scope.pages[0].selected).toBeTruthy();
   });
 
   it ('Should change the selected page when routeChange events are fired', function () {
-    expect($scope.pages[0].selected).toBeTruthy();    
-    $location.path('/individual')
+    expect($scope.pages[0].selected).toBeTruthy();
+    $location.path('/individual');
     $scope.$emit('$routeChangeSuccess');
     expect($scope.pages[0].selected).toBeFalsy();
     expect($scope.pages[1].selected).toBeTruthy();
@@ -65,6 +65,6 @@ describe('Controller: MainCtrl', function() {
 
   it ('Should request networks associated with the user read from the cookie', function () {
     expect(RestNetwork.query).toHaveBeenCalledWith({ user: 'foo@bar.com' });
-  })
-  
+  });
+
 });

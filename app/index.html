@@ -8,8 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title></title>
     <meta name="description" content=""/>
-    <link rel="stylesheet" href="styles/aui/aui-all.css"/>        
-    <link rel="stylesheet" href="styles/main.css"/>        
+    <link rel="stylesheet" href="styles/main.css"/>
 
 </head>
 <body ng-app="UserAdminApp" ng-controller="MainCtrl">
@@ -17,7 +16,7 @@
     <!--[if lt IE 7]>
         <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
-    
+
     <!--[if lt IE 9]>
         <script src="bower_components/es5-shim/es5-shim.min.js"></script>
         <script src="bower_components/json3/lib/json3.min.js"></script>
@@ -37,7 +36,7 @@
                     <ul class="aui-nav">
                         <li><a href="">Interactive Courses</a></li>
                         <li><a href="">Webinars</a></li>
-                    </ul>                   
+                    </ul>
                 </div>
                 <div class="aui-header-secondary">
                     <ul class="aui-nav">
@@ -47,7 +46,25 @@
                                 <input type="text" name="quicksearchname" placeholder="Search Lessons" class="search" id="quicksearchid">
                             </form>
                         </li>
-                        <li><a href=""></a></li>
+                        <li><a href="javascript:void(0);" class="aui-dropdown2-trigger" ng-click="dropdown=!dropdown">
+                                <div class="aui-avatar aui-avatar-small">
+                                    <img src="" alt="">
+                                </div>
+                            </a>
+                            <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header user-dropdown" ng-show="dropdown">
+                                <div class="aui-dropdown2-section">
+                                    <ul class="aui-list-truncate">
+                                        <li><a href="">Profile</a></li>
+                                        <li><a href="">Stuff</a></li>
+                                    </ul>
+                                </div>
+                                <div class="aui-dropdown2-section">
+                                    <ul class="aui-list-truncate">
+                                        <li><a href="">Log Out</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -65,16 +82,14 @@
                         </div>
                     </div>
                     <div class="aui-page-header-main">
-                        <h1>Administration for the 
-                            <form action="" class="aui inline-form">
-                                <select class="select" name="" id="" ng-model="networkIndex">
-                                    <option ng-repeat="network in networks" value="{{ network.id }}">{{ network.name }}</option>
-                                </select>
+                        <h1>Administration for the
+                            <form action="" class="aui inline-form" name="networkForm">
+                                <select class="select" name="networkselect" id="" ng-model="network" ng-change="updateNetwork()" ng-options="network.title for network in networks"></select>
                             </form> network
                         </h1>
                     </div>
                 </div>
-            </header>       
+            </header>
 
             <!-- content -->
             <div class="aui-page-panel">
@@ -85,11 +100,12 @@
                         <nav class="aui-navgroup aui-navgroup-vertical">
                             <div class="aui-navgroup-inner">
                                 <div class="aui-nav-heading"><strong>University Administration</strong></div>
-                                <ul class="aui-nav" >  
+                                <ul class="aui-nav" >
                                     <li ng-repeat="page in pages" ng-class="{ 'aui-nav-selected': page.selected }">
                                         <a ng-href="{{ page.path }}">{{ page.name }}</a>
-                                    </li>                          
-                                </ul>                            
+                                    </li>
+                                    <li><a href="#">Generate Report</a></li>
+                                </ul>
                             </div>
                         </nav>
                     </div>
@@ -97,7 +113,7 @@
                     <section class="aui-page-panel-content" ng-view></section>
 
                 </div>
-            </div>                 
+            </div>
         </section>
 
         <!-- footer -->
@@ -113,9 +129,10 @@
 
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/underscore/underscore.js"></script>
 
     <!-- build:js scripts/scripts.js -->
+    <script src="bower_components/underscore/underscore.js"></script>
+
     <script src="scripts/modules/storage.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/filters/filters.js"></script>

@@ -1,12 +1,9 @@
-/* global _ */
-
 angular.module('UserAdminApp')
 
 /*
  * Utilities
  */
-.service('Util', [ '$location', 
-	function ($location) {
+.service('Util', function ($location) {
 
 
 	/*
@@ -29,7 +26,7 @@ angular.module('UserAdminApp')
 
 		/*
 		 * Pagination function. Provide an object containing the max_items_per_page value
-		 * and a current_page value, and an items array of things to paginate. It will 
+		 * and a current_page value, and an items array of things to paginate. It will
 		 * calculate the pagination
 		 */
 		paginate: function (config) {
@@ -51,7 +48,7 @@ angular.module('UserAdminApp')
 					page_numbers: function () {
 						return range (this.num_pages, 1);
 					}
-				}; 
+				};
 
 			// Get page number from querystring. If it is not in the querystring, assume page 1
 			if (_.has(page_params, 'page')) {
@@ -71,7 +68,7 @@ angular.module('UserAdminApp')
 				}
 				if (options.current_page > 1) {
 					options.prev  = options.current_page - 1;
-					options.first = 1; 
+					options.first = 1;
 				}
 			}
 
@@ -88,4 +85,4 @@ angular.module('UserAdminApp')
 			return options;
 		}
 	};
-}]);
+});

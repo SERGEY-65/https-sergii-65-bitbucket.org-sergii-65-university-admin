@@ -1,13 +1,10 @@
-/* global _ */
-
-
 'use strict';
 
 
 angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 
 /*
- * Detect if a user is already logged in. Only works on same domain, so will not 
+ * Detect if a user is already logged in. Only works on same domain, so will not
  * work from localhost / staging environments.
  * https://extranet.atlassian.com/jira/browse/ISLP-1516
  */
@@ -27,22 +24,22 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 		User.environment({
 			api:	'https://qa-wac.internal.atlassian.com/lasso',
 			id:		'https://id.stg.iam.atlassian.com',
-			gapps:	'https://qa-wac.internal.atlassian.com/googleAuthSessionData'			
-		});	
+			gapps:	'https://qa-wac.internal.atlassian.com/googleAuthSessionData'
+		});
 
 	} else if ($location.host() === 'dev-cart.atlassian.com') {
 		User.environment({
 			api:	'http://dev-cart.atlassian.com/lasso',
 			id:		'http://dev-cart.atlassian.com/id',
-			gapps:	'http://dev-cart.atlassian.com/gapps'			
+			gapps:	'http://dev-cart.atlassian.com/gapps'
 		});
-	}		
+	}
 
 
 	/*
 	 * If we don't see that the user is logged in already, inject an iframe on the page
 	 * that pulls from Lasso which will tell us if the user is signed in or not.
-	 * If the user is signed in, then extract the xsrf token from the iframe and get 
+	 * If the user is signed in, then extract the xsrf token from the iframe and get
 	 * user details (which will fetch user profile data and store in localstorage)
 	 */
 	angular.element('<iframe/>')
@@ -61,13 +58,13 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 				if (tokenElement.length === 1 && tokenElement.text() !== '') {
 					User.xsrfToken(tokenElement.text());
 					$rootScope.$broadcast('$lassoLoggedIn');
-					User.getInformation();				
+					User.getInformation();
 				} else {
 					$rootScope.$broadcast('$lassoNotLoggedIn');
-				}			
+				}
 			}
 		});
-	
+
 })
 
 
@@ -79,10 +76,8 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
  * https://extranet.atlassian.com/display/IT/New+Order+Form+APIs
  * https://extranet.atlassian.com/jira/browse/ISLP-1531
  * https://extranet.atlassian.com/display/IT/Lasso+API
- */ 
-.service('User', [ '$rootScope', '$http', '$window', '$location', '$q', '$cookies', 'Application', 'LocalStorage', 'SessionStorage', 'CookieStorage', 'ErrorHandler',
-	function ($rootScope, $http, $window, $location, $q, $cookies, Application, LocalStorage, SessionStorage, CookieStorage, ErrorHandler) {
-
+ */
+.service('User', function ($rootScope, $http, $window, $location, $q, $cookies, Application, LocalStorage, SessionStorage, CookieStorage, ErrorHandler) {
 
 	/*
 	 * Empty user object as used throughout Lasso service. Should be the default
@@ -93,7 +88,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 			contactDetails: {
 				firstName: '',
 				lastName: '',
-				email: ''				
+				email: ''
 			},
 			exists: false,
 			xsrfToken: null,
@@ -106,15 +101,15 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 				isoCountryCode: '',
 				organisationName: '',
 				organisationType: null,
-				taxId: ''				
+				taxId: ''
 			},
-			gappsData: null 
+			gappsData: null
 		};
 	};
 
 	/*
 	 * Lasso urls:
-	 * 1. api	- the Lasso rest API. proxied. 
+	 * 1. api	- the Lasso rest API. proxied.
 	 * 2. id	 - xsrf token iframe url. proxied.
 	 * 3. gapps  - rest API url for validating google apps token. proxied.
 	 * 4. interceptor - login & logout lasso interceptor. not proxied.
@@ -132,7 +127,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 	/*
 	 * If for any reason, authenticated actions begin throwing 403 errors,
 	 * deauthenticate the user by running this function. This removes all
-	 * user data from the app/browser, and announces to the app that the user 
+	 * user data from the app/browser, and announces to the app that the user
 	 * is logged out.
 	 */
 	function deAuthenticate () {
@@ -143,7 +138,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 			SessionStorage.clear();
 			$rootScope.$broadcast('$lassoLoggedOut');
 			LOGGED_IN = false;
-		}	
+		}
 	}
 
 	function lassoErrorCallback (data, status, headers) {
@@ -170,7 +165,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 
 		/*
 		 * Getter | Setter for Environment (set in run function above)
-		 */		 
+		 */
 		environment: function (providedOpts) {
 			if (providedOpts && _.isObject(providedOpts)) {
 				ENVIRONMENT = _.extend(ENVIRONMENT, providedOpts);
@@ -180,7 +175,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 
 		/*
 		 * Getter | Setter for User data object above.
-		 */		 
+		 */
 		details: function (providedOpts) {
 			if (providedOpts && _.isObject(providedOpts)) {
 				_.extend(USER.contactDetails, providedOpts);
@@ -208,7 +203,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 						USER.gappsData = data;
 						USER.gappsData.token = $location.search().gappsToken;
 						deferred.resolve(USER.gappsData);
-					})	   
+					})
 					.error(function () {
 						deferred.resolve(USER.gappsData);
 					});
@@ -217,7 +212,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 				deferred.resolve(USER.gappsData);
 			}
 			return deferred.promise;
-		},			
+		},
 
 		/*
 		 * Getter | Setter for organisation details object above.
@@ -225,9 +220,9 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 		organizationDetails: function (providedOpts) {
 			if (providedOpts && _.isObject(providedOpts)) {
 				_.extend(USER.organisationDetails, providedOpts);
-			} 
+			}
 			return USER.organisationDetails;
-		},		
+		},
 
 		/*
 		 * Quick check to see if the user is currently logged in
@@ -264,7 +259,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 			 * Ok, so we don't have user data and we CAN get it.. go on a fetch
 			 * quest to Lasso to get the info
 			 */
-			} else {	
+			} else {
 
 				$http({
 					url: ENVIRONMENT.api + '/profile/rest/user/',
@@ -283,8 +278,8 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 						USER.exists = true;
 						LOGGED_IN = true;
 						$rootScope.$broadcast('$lassoUserDetails');
-						deferred.resolve(USER);	
-					
+						deferred.resolve(USER);
+
 					// If failure in any way, deauthenticate and reject the deferred object
 					} else {
 						deferred.reject();
@@ -293,7 +288,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 				}).error(lassoErrorCallback);
 			}
 
-			return deferred.promise;	
+			return deferred.promise;
 		},
 
 		/*
@@ -302,7 +297,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 		isExpert: function () {
 			if (LOGGED_IN) {
 				return USER.organisationDetails.organisationType === 'EXPERT';
-			}	
+			}
 			return false;
 		},
 
@@ -338,7 +333,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 					})
 					.error(function () {
 						deferred.reject({ exists: false });
-					});				
+					});
 			} else {
 				deferred.resolve({ exists: USER.exists });
 			}
@@ -346,18 +341,18 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 			return deferred.promise;
 		}
 	};
-}])
+})
 
 
 /*
  * Login directive. Allows you to create a link that will prompt a login modal
  * window for the user to login. A callback function can be passed in to execute
- * upon successful login. 
- * 
+ * upon successful login.
+ *
  * USAGE:
- * <div 
- * 		lasso-login 									
- * 		theme="button|link"	  // the link to login can be a text link or a green button. Defaults to 'button' 
+ * <div
+ * 		lasso-login
+ * 		theme="button|link"	  // the link to login can be a text link or a green button. Defaults to 'button'
  * 		text="link text"	  // the text in the link or button. Defaults to 'Log In'
  *	  size="small|inline"		  // optional: additional button classes
  * ></div>
@@ -404,7 +399,7 @@ angular.module('Lasso', [ 'ngCookies', 'Communications', 'Storage' ])
 				var href = getEnvironment(elm.attr('href'));
 				if (href !== attr.href || href !== elm.attr('href')) {
 					elm.attr('href', href);
-				}					
+				}
 			});
 		}
 	};

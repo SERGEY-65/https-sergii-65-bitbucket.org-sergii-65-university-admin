@@ -10,7 +10,7 @@ angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
 /*
  * Configuration & Routing
  */
-.config(['$routeProvider', function ($routeProvider) {
+.config(function ($routeProvider) {
 
 
     $routeProvider
@@ -36,14 +36,14 @@ angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
 
     // $locationProvider.html5Mode(true);
 
-}])
+})
 
 
 /*
  * Bootstrap
  */
-.run([ function () {
+.run(function () {
 
 
 
-}]);
+});

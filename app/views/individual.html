@@ -2,11 +2,11 @@
 	<h4>Email Addresses Allowed into the network <span class="aui-icon aui-icon-small aui-iconfont-help">?</span></h4>
 	<div class="aui-group">
 		<div class="add-block">
-			<form action="" class="aui aui-group">
-				<input type="text" class="text" name="domainentry" ng-model="entry">
-				<button class="aui-button inline-button" ng-click="add()">Add</button>
+			<form class="aui aui-group" name="entryForm">
+				<input type="email" class="text" name="individualEntry" required ng-model="entry">
+				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.individualEntry.$valid">Add</button>
 			</form>
-		</div>			
+		</div>
 	</div>
 
 </div>
@@ -14,8 +14,8 @@
 	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default">
 		<thead>
 			<tr class="tablesorter-headerRow">
-				<th class="tablesorter-header" 
-					ng-click="reverse=!reverse" 
+				<th class="tablesorter-header"
+					ng-click="reverse=!reverse"
 					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
 					<div class="tablesorter-header-inner">
 						<span class="aui-table-header-content">Domain</span>
@@ -27,21 +27,21 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="individual in individuals | orderBy:'email':reverse | limit:pagination.offset:pagination.limit">
-				<td><a href="">{{ individual.email }}</a></td>
+			<tr ng-repeat="individual in individuals | orderBy:'id_user':reverse | limit:pagination.offset:pagination.limit">
+				<td><a href="">{{ individual.id_user }}</a></td>
 				<td class="aui-compact-button-column">
 					<div class="inline-actions">
 						<button class="aui-button aui-button-compact" ng-click="remove(individual)">
 							<span class="aui-icon aui-icon-small aui-iconfont-remove">Remove</span>
-						</button>					
+						</button>
 					</div>
 				</td>
 			</tr>
 		</tbody>
-	</table>	
+	</table>
 </div>
 <div class="aui-group aui-group-split">
-	<div class="aui-item">
+	<div class="aui-item" ng-show="individuals.length > 0">
 		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}</p>
 	</div>
 	<div class="aui-item" ng-show="pagination.num_pages > 1">
@@ -52,8 +52,8 @@
 				<a ng-show="i != pagination.current_page" ng-href="#/individual?page={{ i }}">{{ i }}</a>
 				<span ng-show="i == pagination.current_page">{{ i }}</span>
 			</li>
-			<li ng-show="pagination.next" class="aui-nav-next"><a ng-href="#/individual?page={{ pagination.next }}">Next</a></li>			
+			<li ng-show="pagination.next" class="aui-nav-next"><a ng-href="#/individual?page={{ pagination.next }}">Next</a></li>
 			<li ng-show="pagination.last" class="aui-nav-last"><a ng-href="#/individual?page={{ pagination.last }}">Last</a></li>
 		</ol>
-	</div>	
+	</div>
 </div>

@@ -1,5 +1,5 @@
 /*
- * $resource RESTful setup and configuration 
+ * $resource RESTful setup and configuration
  * http://docs.angularjs.org/api/ngResource.$resource
  */
 angular.module('UserAdminApp')
@@ -9,10 +9,7 @@ angular.module('UserAdminApp')
  * Base domain url for all RESTful resources. Is aware of the environment
  * it is running in, and will return the appropriate base url for that env
  */
-.factory('RestBaseUrl', [ '$location',
-	function ($location) {
-
-	'use strict';
+.factory('RestBaseUrl', function ($location) {
 
 	var host = $location.host(),
 		baseUrl = 'http://university.atlassian.com/api';
@@ -22,25 +19,36 @@ angular.module('UserAdminApp')
 	}
 
 	return baseUrl;
-}])
+})
 
 
 /*
  * NETWORKS FOR LOGGED IN USER
  * pass in user email - from __ATL_USER cookie
  */
-.factory('RestNetwork', [ '$resource', 'RestBaseUrl',
-	function ($resource, RestBaseUrl) {
-
-	'use strict';
+.factory('RestAdminNetworks', function ($resource, RestBaseUrl) {
 
 	return $resource(
-		RestBaseUrl + '/networks-users/:user',
+		RestBaseUrl + '/networks-admins/:user',
 		{
 			user: '@user'
 		}
 	);
-}])
+})
+
+
+/*
+ * NETWORK DETAILS
+ */
+.factory('RestNetwork', function ($resource, RestBaseUrl) {
+
+	return $resource(
+		RestBaseUrl + '/networks/:id',
+		{
+			id: '@id'
+		}
+	);
+})
 
 
 /*
@@ -59,10 +67,22 @@ angular.module('UserAdminApp')
 
 
 /*
+ * DOMAINS BY NETWORK
+ */
+.factory('RestNetworkDomain', function ($resource, RestBaseUrl) {
+	return $resource(
+		RestBaseUrl + '/networks-domains-by-network/:network/',
+		{
+			network: '@network'
+		}
+	);
+})
+
+/*
  * DOMAINS
- * 
- * GET all 
- * var allDomains = Domain.query({ network: 'macnet' });
+ *
+ * GET all
+ * var allDomains = Domain.query({ network: 2 }); // network id
  *
  * POST new
  * var domain = new Domain({ network: 'macnet', id: '123', url: 'foobar' });
@@ -73,49 +93,20 @@ angular.module('UserAdminApp')
  *     domain.url = 'somethingnew';
  *     domain.$save();
  */
-.factory('RestDomain', [ '$resource', 'RestBaseUrl',
-	function ($resource, RestBaseUrl) {
-
-	'use strict';
-
+.factory('RestDomain', function ($resource, RestBaseUrl) {
 	return $resource(
-		RestBaseUrl + '/:network/domains/:id/:action',
+		RestBaseUrl + '/networks-domains/:network/:id/',
 		{
 			id: '@id',
-			network: '@network',
-			action: '@action'
+			network: '@network'
 		}
 	);
-}])
-
-
-/*
- * INDIVIDUALS
- */
-.factory('RestIndividual', [ '$resource', 'RestBaseUrl',
-	function ($resource, RestBaseUrl) {
-
-	'use strict';
-
-	return $resource(
-		RestBaseUrl + '/:network/individual/:id/:action',
-		{
-			id: '@id',
-			network: '@network',
-			action: '@action'
-		}
-	);
-}])
-
+})
 
 /*
  * NETWORK USERS
  */
-.factory('RestUser', [ '$resource', 'RestBaseUrl',
-	function ($resource, RestBaseUrl) {
-
-	'use strict';
-
+.factory('RestNetworkUser', function ($resource, RestBaseUrl) {
 	return $resource(
 		RestBaseUrl + '/networks-users/:network/:user',
 		{
@@ -123,16 +114,26 @@ angular.module('UserAdminApp')
 			network: '@network'
 		}
 	);
-}])
+})
 
 
 /*
- * LICENSES
+ * USERS
  */
-.factory('RestLicense', [ '$resource', 'RestBaseUrl',
-	function ($resource, RestBaseUrl) {
+.factory('RestUser', function ($resource, RestBaseUrl) {
+	return $resource(
+		RestBaseUrl + '/users/:user',
+		{
+			user: '@user'
+		}
+	);
+})
 
-	'use strict';
+
+/*
+ * SENS FOR A GIVEN NETWORK
+ */
+.factory('RestNetworkSens', function ($resource, RestBaseUrl) {
 
 	return $resource(
 		RestBaseUrl + '/network-sens/:network/',
@@ -140,16 +141,13 @@ angular.module('UserAdminApp')
 			network: '@network'
 		}
 	);
-}])
+})
 
 
 /*
  * COURSES
  */
-.factory('RestCourses', [ '$resource', 'RestBaseUrl',
-	function ($resource, RestBaseUrl) {
-
-	'use strict';
+.factory('RestCourses', function ($resource, RestBaseUrl) {
 
 	return $resource(
 		RestBaseUrl + '/product-courses/:product',
@@ -157,4 +155,4 @@ angular.module('UserAdminApp')
 			product: '@product'
 		}
 	);
-}]);
+});

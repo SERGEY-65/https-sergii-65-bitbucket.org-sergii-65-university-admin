@@ -55,7 +55,7 @@ describe('Service: Util', function() {
     expect(p.last).toBe(3);
     expect(p.beginning_item).toBe(11);
     expect(p.last_item).toBe(20);
-  });  
+  });
 
   it ('Pagination should accept override params', function () {
     location.search('page', 4);
@@ -71,7 +71,7 @@ describe('Service: Util', function() {
     expect(p.last).toBe(6);
     expect(p.beginning_item).toBe(16);
     expect(p.last_item).toBe(20);
-  });   
+  });
 
   it ('Pagination should reset location to last page if page number is too high', function () {
     location.search('page', 8);
@@ -80,13 +80,12 @@ describe('Service: Util', function() {
   });
 
   it ('Pagination page_numbers() should return array of page numbers', function () {
-    var p = util.paginate({ items: [0,0,0,0,0,0,0,0,0,0,0,0] })
+    var p = util.paginate({ items: [0,0,0,0,0,0,0,0,0,0,0,0] });
     expect(p.page_numbers().length).toBe(2);
     expect(p.page_numbers()).toEqual([1,2]);
-    var p = util.paginate({ items: [0,0,0,0,0,0,0,0,0,0,0,0], max_items_per_page: 2 })
+    p = util.paginate({ items: [0,0,0,0,0,0,0,0,0,0,0,0], max_items_per_page: 2 });
     expect(p.page_numbers().length).toBe(6);
     expect(p.page_numbers()).toEqual([1,2,3,4,5,6]);
-  })
+  });
 
-  
 });

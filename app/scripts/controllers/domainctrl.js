@@ -1,134 +1,50 @@
-/* global _ */
-
-angular.module('UserAdminApp').controller('DomainCtrl', [ 
-	'$scope', 'RestDomain', 'Util',
+angular.module('UserAdminApp').controller('DomainCtrl',
 	function ($scope, RestDomain, Util) {
-
-
-
-    // ===============================================================================
-    // SCOPE VALUES
-    // ===============================================================================
-
-    $scope.reverse = false;
-
-	RestDomain.query({ network: 'market' });
-
-	$scope.domains = [
-		{
-			url: 'ggggggggggn.com',
-			id: 1230
-		},
-		{
-			url: 'atlassian.com',
-			id: 1234
-		},
-		{
-			url: 'eadsfcom',
-			id: 1238
-		},
-		{
-			url: 'dsdfasdfn.com',
-			id: 1237
-		},
-		{
-			url: 'faasdfn.com',
-			id: 1239
-		},
-		{
-			url: 'bfdsgfas.com',
-			id: 1232
-		},
-		{
-			url: 'csadfsf.com',
-			id: 1233
-		},
-		{
-			url: 'ggggggggggn.com',
-			id: 1230
-		},
-		{
-			url: 'atlassian.com',
-			id: 1234
-		},
-		{
-			url: 'eadsfcom',
-			id: 1238
-		},
-		{
-			url: 'dsdfasdfn.com',
-			id: 1237
-		},
-		{
-			url: 'faasdfn.com',
-			id: 1239
-		},
-		{
-			url: 'bfdsgfas.com',
-			id: 1232
-		},
-		{
-			url: 'csadfsf.com',
-			id: 1233
-		},
-		{
-			url: 'ggggggggggn.com',
-			id: 1230
-		},
-		{
-			url: 'atlassian.com',
-			id: 1234
-		},
-		{
-			url: 'eadsfcom',
-			id: 1238
-		},
-		{
-			url: 'dsdfasdfn.com',
-			id: 1237
-		},
-		{
-			url: 'faasdfn.com',
-			id: 1239
-		},
-		{
-			url: 'bfdsgfas.com',
-			id: 1232
-		},
-		{
-			url: 'csadfsf.com',
-			id: 1233
-		}														
-	];
-
-	$scope.pagination = Util.paginate({
-		items: $scope.domains
-	});
-
-
-	$scope.remove = function (domain) {
-
-		// domain.blocked = true;
-		// domain.$save();
-		
-		// RestDomain.block({ id: domain.id, network: 'macnet' }, function () {
-			$scope.domains = _.without($scope.domains, domain);
-		// });
-	};
-
-
-	$scope.add = function () {
-		$scope.domains.push({ url: $scope.entry });
-		$scope.entry = '';
-	};
-
-	$scope.entry = '';
 
     // ===============================================================================
     // PRIVATE FUNCTIONS
     // ===============================================================================
 
+    var loadNetworkData = function () {
+        if ($scope.network) {
+			RestDomain.query({ network: $scope.network.id }, function (domains) {
+				$scope.domains = domains;
+				paginate();
+			});
+        }
+    };
+
+    var paginate = function () {
+        $scope.pagination = Util.paginate({
+            items: $scope.domains
+        });
+    };
+
+    // ===============================================================================
+    // SCOPE VALUES
+    // ===============================================================================
+
+	$scope.entry = '';
+    $scope.reverse = false;
+    $scope.domains = [];
 
 
+    $scope.$on('$NetworkUpdate', loadNetworkData);
+    loadNetworkData();
 
-}]);
+    $scope.remove = function (domains) {
+        domains.$delete({ user: domains.id_user, network: domains.id_network });
+        $scope.domains = _.without($scope.domains, domains);
+        paginate();
+    };
+
+    $scope.add = function () {
+        var domain = new RestDomain({
+            id_network: $scope.network.id
+        });
+        domain.$save();
+        $scope.domains.push(domain);
+        paginate();
+    };
+
+});

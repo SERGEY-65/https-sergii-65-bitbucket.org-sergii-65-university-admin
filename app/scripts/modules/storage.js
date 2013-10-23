@@ -1,4 +1,4 @@
-/* global _, escape, unescape */
+/* global escape, unescape */
 
 'use strict';
 
@@ -12,7 +12,7 @@ angular.module('Storage', [])
  * will only be responsible for organizing the data to be stored, then will pass to this
  * service to communicate it to and from the browser.
  */
-.service('BrowserStorage', [ '$window', '$document', function ($window, $document) {
+.service('BrowserStorage', function ($window, $document) {
 
 
 	/*
@@ -22,7 +22,7 @@ angular.module('Storage', [])
 
 
 	/*
-	 * Check browser support for storage type, and save the resulting test in browserSupport obj 
+	 * Check browser support for storage type, and save the resulting test in browserSupport obj
 	 */
 	browserSupport = {},
 	supports = function (storageType) {
@@ -31,9 +31,9 @@ angular.module('Storage', [])
 		}
 		if (_.contains(['localStorage', 'sessionStorage'], storageType)) {
 			try {
-				browserSupport[storageType] = typeof $window[storageType] === 'object' && 
-					typeof $window[storageType].setItem === 'function' && 
-					typeof $window[storageType].getItem === 'function' && 
+				browserSupport[storageType] = typeof $window[storageType] === 'object' &&
+					typeof $window[storageType].setItem === 'function' &&
+					typeof $window[storageType].getItem === 'function' &&
 					typeof $window[storageType].clear   === 'function';
 			} catch (e) {
 				browserSupport[storageType] = false;
@@ -45,7 +45,7 @@ angular.module('Storage', [])
 				browserSupport.cookie = false;
 			}
 		}
-		return browserSupport[storageType];	
+		return browserSupport[storageType];
 	};
 
 
@@ -54,17 +54,17 @@ angular.module('Storage', [])
 
 		/*
 		 * Add to local or session storage. Can use nested keys to assign values
-		 * to sub-properties of the main object. 
+		 * to sub-properties of the main object.
 		 * Don't add null or undefined, but 0 and '' and false are okay
-		 */	
+		 */
 		setItem: function (value, storageType) {
 			if (supports(storageType)) {
 				$window[storageType].setItem(prefix, JSON.stringify(value));
-			}			
+			}
 		},
 
 		/*
-		 * Get value from local or session storage. Can use nested keys to 
+		 * Get value from local or session storage. Can use nested keys to
 		 * retrieve properties nested deep within the storage object.
 		 */
 		getItem: function (storageType) {
@@ -111,11 +111,11 @@ angular.module('Storage', [])
 						break;
 				}
 
-				$document[0].cookie = escape(key) + 
-				'=' + 
-				escape(value) + 
-				options.end + 
-				'; domain=' + options.domain + 
+				$document[0].cookie = escape(key) +
+				'=' +
+				escape(value) +
+				options.end +
+				'; domain=' + options.domain +
 				'; path=' + options.path;
 			}
 		},
@@ -140,15 +140,15 @@ angular.module('Storage', [])
 			}
 		}
 	};
-}])
+})
 
 
 /*
  * Local storage service for keeping state in browser sessionStorage (if supported) so all work is
  * not lost on refresh. Based in part on https://github.com/grevory/angular-local-storage/blob/master/localStorageModule.js
  */
-.service('LocalStorage', [ '$parse', 'BrowserStorage', function ($parse, BrowserStorage) {
-	
+.service('LocalStorage', function ($parse, BrowserStorage) {
+
 
 	var STORAGE_OBJECT = {
 		timestamp: Date.parse(new Date())
@@ -166,17 +166,17 @@ angular.module('Storage', [])
 			STORAGE_OBJECT = priorStorage;
 		}
 	}
-	
+
 	return {
 
 		/*
 		 * Add value to local storage
-		 */ 
+		 */
 		add: function (key, value) {
 			// don't add null or undefined, but 0 and '' and false are okay
 			if (!value && value !== 0 && value !== '' && value !== false) {
 				return false;
-			}	
+			}
 			var setter = $parse(key).assign;
 				setter(STORAGE_OBJECT, value);
 			BrowserStorage.setItem(STORAGE_OBJECT, 'localStorage');
@@ -202,7 +202,7 @@ angular.module('Storage', [])
 		},
 
 		/*
-		 * Clear all items from local storage for this app, and reset the 
+		 * Clear all items from local storage for this app, and reset the
 		 * storage object in memory to it's initial empty value
 		 */
 		clear: function () {
@@ -210,15 +210,15 @@ angular.module('Storage', [])
 			// console.log('cleared local storage', BrowserStorage.getItem('localStorage'))
 		}
 	};
-}])
+})
 
 
 /*
  * Session storage service for keeping state in browser sessionStorage (if supported) so all work is
- * not lost on refresh. 
+ * not lost on refresh.
  */
-.service('SessionStorage', [ '$parse', 'BrowserStorage', function ($parse, BrowserStorage) {
-	
+.service('SessionStorage', function ($parse, BrowserStorage) {
+
 
 	var STORAGE_OBJECT = BrowserStorage.getItem('sessionStorage') || {};
 
@@ -227,12 +227,12 @@ angular.module('Storage', [])
 
 		/*
 		 * Add value to session storage
-		 */ 
+		 */
 		add: function (key, value) {
 			// don't add null or undefined, but 0 and '' and false are okay
 			if (!value && value !== 0 && value !== '' && value !== false) {
 				return false;
-			}	
+			}
 			var setter = $parse(key).assign;
 				setter(STORAGE_OBJECT, value);
 			BrowserStorage.setItem(STORAGE_OBJECT, 'sessionStorage');
@@ -255,10 +255,10 @@ angular.module('Storage', [])
 			var setter = $parse(key).assign;
 				setter(STORAGE_OBJECT, null);
 			BrowserStorage.setItem(STORAGE_OBJECT, 'sessionStorage');
-		},		
+		},
 
 		/*
-		 * Clear all items from session storage for this app, and reset the 
+		 * Clear all items from session storage for this app, and reset the
 		 * storage object in memory to it's initial empty value
 		 */
 		clear: function () {
@@ -266,13 +266,13 @@ angular.module('Storage', [])
 			// console.log('cleared session storage', BrowserStorage.getItem('sessionStorage'))
 		}
 	};
-}])
+})
 
 
 /*
  * Cookie storage service for storing data in cookies.
  */
-.service('CookieStorage', [ 'BrowserStorage', function (BrowserStorage) {
+.service('CookieStorage', function (BrowserStorage) {
 
 	var COOKIES = {};
 
@@ -302,7 +302,7 @@ angular.module('Storage', [])
 			COOKIES = {};
 		}
 	};
-}])
+})
 
 
 /*
@@ -334,10 +334,10 @@ angular.module('Storage', [])
 				return scope.$eval(attr.ngModel);
 			}, function (newVal, oldVal) {
 				if (newVal || newVal !== oldVal) {
-					addToSessionStorage();					
+					addToSessionStorage();
 				}
 			});
-			
+
 			if (tag === 'input' && _.contains(['text', 'email', 'phone', 'password'], type)) {
 				elm.bind('keydown', addToSessionStorage);
 

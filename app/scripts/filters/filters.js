@@ -1,6 +1,5 @@
-/* global _ */
-
 angular.module('UserAdminApp')
+
 
 /*
  * Filter array with limit and offset values
@@ -10,8 +9,11 @@ angular.module('UserAdminApp')
 		if (ray && _.isArray(ray)) {
 			var len = ray.length;
 			limit = limit || 0;
-			offset = offset > len ? len : offset;
-			return ray.slice(limit, offset);			
+			offset = offset || len;
+			if (offset > len) {
+				offset = len;
+			}
+			return ray.slice(limit, offset);
 		}
 		return [];
 	};
