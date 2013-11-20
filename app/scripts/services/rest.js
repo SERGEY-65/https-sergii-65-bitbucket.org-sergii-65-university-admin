@@ -12,10 +12,14 @@ angular.module('UserAdminApp')
 .factory('RestBaseUrl', function ($location) {
 
 	var host = $location.host(),
-		baseUrl = 'http://university.atlassian.com/api';
+		//baseUrl = 'http://172.24.253.17:8080/ahccu-server2';
+		baseUrl = '/magnoliaAuthor/uac/ahccu/api';
+		//baseUrl = 'http://172.28.14.122:8080/ahccu-server';
+	if (_.contains([ 'university.atlassian.com', 'localhost' ], host)) {
+		//baseUrl = 'http://172.24.253.17:8080/ahccu-server2';
+		//baseUrl = 'http://172.28.14.122:8080/ahccu-server';
+		baseUrl = '/magnoliaAuthor/uac/ahccu/api';
 
-	if (_.contains([ 'university.atlassian.net', 'localhost' ], host)) {
-		baseUrl = 'http://university.atlassian.net/api';
 	}
 
 	return baseUrl;
@@ -30,6 +34,7 @@ angular.module('UserAdminApp')
 
 	return $resource(
 		RestBaseUrl + '/networks-admins/:user',
+		//RestBaseUrl + '/users/:user',
 		{
 			user: '@user'
 		}
@@ -116,6 +121,17 @@ angular.module('UserAdminApp')
 	);
 })
 
+
+/*
+ * USER
+ */
+.factory('RestCurrentUser', function ($resource, RestBaseUrl) {
+	return $resource(
+		RestBaseUrl + '/user',
+		{
+		}
+	);
+})
 
 /*
  * USERS

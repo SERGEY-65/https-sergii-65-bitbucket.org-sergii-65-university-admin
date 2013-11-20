@@ -15,19 +15,19 @@ angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
 
     $routeProvider
     .when('/domains', {
-        templateUrl: 'views/domains.html',
+        templateUrl: '../docroot/uac-admin/app/views/domains.html',
         controller: 'DomainCtrl'
     })
     .when('/individual', {
-        templateUrl: 'views/individual.html',
+        templateUrl: '../docroot/uac-admin/app/views/individual.html',
         controller: 'IndividualCtrl'
     })
     .when('/licenses', {
-        templateUrl: 'views/licenses.html',
+        templateUrl: '../docroot/uac-admin/app/views/licenses.html',
         controller: 'LicenseCtrl'
     })
     .when('/users', {
-        templateUrl: 'views/users.html',
+        templateUrl: '../docroot/uac-admin/app/views/users.html',
         controller: 'UserCtrl'
     })
     .otherwise({
