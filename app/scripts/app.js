@@ -13,22 +13,22 @@ angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
 .config(function ($routeProvider, $httpProvider) {
 
     $routeProvider
-    .when('/domains', {
-        templateUrl: '../docroot/uac-admin/app/views/domains.html',
-        controller: 'DomainCtrl'
-    })
-    .when('/individual', {
-        templateUrl: '../docroot/uac-admin/app/views/individual.html',
-        controller: 'IndividualCtrl'
-    })
+//    .when('/domains', {
+//        templateUrl: '../docroot/uac-admin/app/views/domains.html',
+//        controller: 'DomainCtrl'
+ //   })
+//    .when('/individual', {
+//        templateUrl: '../docroot/uac-admin/app/views/individual.html',
+//        controller: 'IndividualCtrl'
+//    })
     .when('/licenses', {
         templateUrl: '../docroot/uac-admin/app/views/licenses.html',
         controller: 'LicenseCtrl'
     })
-    .when('/users', {
-        templateUrl: '../docroot/uac-admin/app/views/users.html',
-        controller: 'UserCtrl'
-    })
+//    .when('/users', {
+//        templateUrl: '../docroot/uac-admin/app/views/users.html',
+//        controller: 'UserCtrl'
+//    })
     .otherwise({
         redirectTo: '/licenses'
     });

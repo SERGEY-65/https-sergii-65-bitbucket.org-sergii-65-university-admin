@@ -66,22 +66,22 @@ angular.module('UserAdminApp').controller('MainCtrl',
 		{
 			name: 'Licenses and Courses',
 			path: '#/licenses',
-			selected: false
-		},
-		{
-			name: 'Domain Access',
-			path: '#/domains',
 			selected: true
-		},
-		{
-			name: 'Individual Access',
-			path: '#/individual',
-			selected: false
-		},
-		{
-			name: 'Users',
-			path: '#/users',
-			selected: false
+//		},
+//		{
+//			name: 'Domain Access',
+//			path: '#/domains',
+//			selected: true
+//		},
+//		{
+//			name: 'Individual Access',
+//			path: '#/individual',
+//			selected: false
+//		},
+//		{
+//			name: 'Users',
+//			path: '#/users',
+//			selected: false
 		}
 	];
 
