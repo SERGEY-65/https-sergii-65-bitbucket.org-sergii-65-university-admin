@@ -48,6 +48,12 @@ angular.module('UserAdminApp').controller('MainCtrl',
 	});
 
 
+    $scope.changeFriendlyName = function(network) {
+        console.log(network);
+        network.$save();
+        console.log(network);
+    }
+
 
 	$scope.updateNetwork = function () {
 		$scope.$broadcast('$NetworkUpdate');
@@ -58,6 +64,11 @@ angular.module('UserAdminApp').controller('MainCtrl',
 	 */
 	$scope.pages = [
 		{
+			name: 'Licenses and Courses',
+			path: '#/licenses',
+			selected: false
+		},
+		{
 			name: 'Domain Access',
 			path: '#/domains',
 			selected: true
@@ -65,11 +76,6 @@ angular.module('UserAdminApp').controller('MainCtrl',
 		{
 			name: 'Individual Access',
 			path: '#/individual',
-			selected: false
-		},
-		{
-			name: 'Licenses and Courses',
-			path: '#/licenses',
 			selected: false
 		},
 		{

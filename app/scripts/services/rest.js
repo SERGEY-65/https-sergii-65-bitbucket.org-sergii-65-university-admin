@@ -171,4 +171,37 @@ angular.module('UserAdminApp')
 			product: '@product'
 		}
 	);
+})
+
+.factory('RestNetworkHiddenCourses', function ($resource, RestBaseUrl) {
+
+	return $resource(
+		RestBaseUrl + '/networks-hidden-courses-by-id-network/:network/',
+		{
+			network: '@network'
+		}
+	);
+})
+
+.factory('RestDeleteNetworkHiddenCourses', function ($resource, RestBaseUrl) {
+
+	return $resource(
+		RestBaseUrl + '/networks-hidden-courses-by-id-network/:network/:course/:version',
+		{
+			network: '@id_network',
+			course: '@name_product',
+			version: '@name_course'
+		}
+	);
+})
+
+
+.factory('RestNetworksCoursesByNetwork', function ($resource, RestBaseUrl) {
+
+	return $resource(
+		RestBaseUrl + '/selected-networks-courses-by-network/:network',
+		{
+			network: '@network'
+		}
+	);
 });

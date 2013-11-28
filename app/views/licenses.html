@@ -1,25 +1,83 @@
+<div class="network-name-form">
+	<form action="#" class="aui" >
+		<fieldset class="group">
+			<div class="field-group">
+				<label for="network-name">Network Name:</label>
+				<div inline-edit="network.title" on-save="changeFriendlyName(network)" on-cancel="cancelEdit(network.title)">
+				  <input type="text" class="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">
+				  <button ng-click="cancel()" ng-show="editMode">cancel</button>
+				  <button ng-click="save()" ng-show="editMode">save</button>
+				  <div class="network-name-inlinedit-span" ng-mouseenter="showEdit = true" ng-mouseleave="showEdit = false">
+				    <span ng-hide="editMode" ng-click="edit()">{{model}}</span>
+				    <a ng-show="showEdit" ng-click="edit()"><span class="aui-icon aui-icon-small aui-iconfont-edit" data-unicode="UTF+E014" original-title="">Edit</span></a>
+				  </div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+
+<!--<table class="aui">
+    <thead>
+        <tr>
+            <th id="basic-productname">Product Name</th>
+            <th id="basic-licensesize">License Size</th>
+            <th id="basic-sen">SEN</th>
+            <th id="basic-expiration">Expiration</th>
+            <th id="basic-versions">Visible Versions</th>
+            <th id="basic-action">Action</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="license in licenses | orderBy:id">
+        <tr>
+            <td headers="basic-productname">
+            	<b>{{license.productName}}</b>
+            </td>
+            <td headers="basic-licensesize">
+            	{{ license.sen.license_type }} <span ng-show="license.purchased">users</span>
+				<div class="aui-message hint" ng-show="!license.purchased">
+				    <p class="title">
+				        <span class="aui-icon icon-hint "></span>
+				        <strong>Info</strong>
+				    </p>
+				    <p>You haven't purchased University for {{ license.productName }}</p>
+				</div>
+            </td>
+            <td headers="basic-sen">
+            	{{ license.sen.sen }}
+            </td>
+            <td headers="basic-expiration">
+            	{{ license.sen.expiration }}
+            </td>
+            <td headers="basic-versions">
+					<div ng-repeat="productVersion in license.versions">
+						<div class="checkbox">
+							<input type="checkbox" ng-model="productVersion.visible" class="checkbox" ng-change="hideCourse(productVersion)">
+							<label for="">{{productVersion.title}}</label>
+						</div>
+					</div>
+            </td>
+            <td headers="basic-action">
+				<a class="aui-button" ng-show="license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Renew/Upgrade</a>
+				<a class="aui-button" ng-show="!license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Buy</a>
+            </td>
+        </tr>
+    </tbody>
+</table>-->
+
 <div class="aui-group">
 	<div class="aui-item" ng-repeat="license in licenses | orderBy:id">
 		<div class="course-container">
 			<h2 ng-bind-html-unsafe="license.productName"></h2>
 			<form action="" class="aui" ng-show="license.purchased">
 				<fieldset class="group">
-					<legend><span>Visible Courses:</span></legend>
-					<div class="checkbox">
-						<input type="checkbox" class="checkbox">
-						<label for="">JIRA 6.0</label>
-					</div>
-					<div class="checkbox">
-						<input type="checkbox" class="checkbox">
-						<label for="">JIRA 5.2</label>
-					</div>
-					<div class="checkbox">
-						<input type="checkbox" class="checkbox">
-						<label for="">JIRA 5.1</label>
-					</div>
-					<div class="checkbox">
-						<input type="checkbox" class="checkbox">
-						<label for="">JIRA 5.0</label>
+					<legend><span>Visible Versions:</span></legend>
+					<div ng-repeat="productVersion in license.versions">
+						<div class="checkbox">
+							<input type="checkbox" ng-model="productVersion.visible" class="checkbox" ng-change="hideCourse(productVersion)">
+							<label for="">{{productVersion.title}}</label>
+						</div>
 					</div>
 				</fieldset>
 				<fieldset>
@@ -47,83 +105,11 @@
 			<form class="aui">
 				<fieldset>
 					<div class="field-group">
-						<button class="aui-button" ng-show="license.purchased">Renew/Upgrade</button>
-						<button class="aui-button" ng-show="!license.purchased">Buy</button>
+						<a class="aui-button" ng-show="license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Renew/Upgrade</a>
+						<a class="aui-button" ng-show="!license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Buy</a>
 					</div>
 				</fieldset>
 			</form>
 		</div>
 	</div>
-<!-- 	<div class="aui-item">
-		<div class="course-container">
-			<h2>JIRA Agile <small>(formerly Greenhopper)</small></h2>
-			<form action="" class="aui">
-				<fieldset class="group">
-					<legend><span>Visible Courses:</span></legend>
-					<div class="checkbox">
-						<input type="checkbox" class="checkbox">
-						<label for="">JIRA Agile 6.0</label>
-					</div>
-					<div class="checkbox">
-						<input type="checkbox" class="checkbox">
-						<label for="">GreenHopper 5.2</label>
-					</div>
-					<div class="checkbox">
-						<input type="checkbox" class="checkbox">
-						<label for="">GreenHopper 5.1</label>
-					</div>
-					<div class="checkbox">
-						<input type="checkbox" class="checkbox">
-						<label for="">GreenHopper 5.0</label>
-					</div>
-				</fieldset>
-				<fieldset>
-					<div class="field-group">
-						<label for="">License Size:</label>
-						<input type="text" class="text non-editable" value="50 users">
-					</div>
-		<!-- 					<div class="field-group">
-						<label for="">Licenses Used:</label>
-						<input type="text" class="text non-editable" value="50">
-					</div> - ->
-					<div class="field-group">
-						<label for="">SEN:</label>
-						<input type="text" class="text non-editable" value="123456687">
-					</div>
-					<div class="field-group">
-						<label for="">Expiration Date:</label>
-						<input type="text" class="text non-editable" value="12/22/2015">
-					</div>
-		<!-- 					<div class="field-group">
-						<label for="">Tech Contact:</label>
-						<input type="email" class="text non-editable" value="jkatz@atlassian.com">
-					</div> - ->
-				</fieldset>
-				<fieldset>
-					<div class="field-group">
-						<button class="aui-button">Renew/Upgrade</button>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-	</div>
-	<div class="aui-item">
-		<div class="course-container">
-			<h2>Confluence</h2>
-			<div class="aui-message hint">
-			    <p class="title">
-			        <span class="aui-icon icon-hint "></span>
-			        <strong>Info</strong>
-			    </p>
-			    <p>You haven't purchased University for Confluence</p>
-			</div>
-			<form action="" class="aui">
-				<fieldset>
-					<div class="field-group">
-						<button class="aui-button">Buy</button>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-	</div> -->
 </div>

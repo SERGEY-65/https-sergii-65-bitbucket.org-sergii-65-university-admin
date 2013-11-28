@@ -28,7 +28,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="domain in domains | orderBy:'url':reverse | limit:pagination.offset:pagination.limit">
-				<td><a href="">{{ domain.url }}</a></td>
+				<td><a href="">{{ domain.id_domain }}</a></td>
 				<td class="aui-compact-button-column">
 					<div class="inline-actions">
 						<button class="aui-button aui-button-compact" ng-click="remove(domain)">

@@ -50,18 +50,28 @@
 }
 .aui.inline-form .select {
 	font-size: 0.625em;
-	height: 1.75em;
+	height:2.25em;
 	top: -2px;
 	position: relative;
 }
 .inline-button {
 	margin-left: 16px;
 }
+
+.network-name-form {
+	margin-left:-30px;
+}
+
+.network-name-inlinedit-span {
+	margin-top:5px;
+}
+
 .course-container {
 	border: 1px solid #ccc;
 	border-radius: 8px;
 	margin: 20px 0;
 	padding: 20px;
+	background-color:#ffffff;
 }
 
 form.aui .text.non-editable {
