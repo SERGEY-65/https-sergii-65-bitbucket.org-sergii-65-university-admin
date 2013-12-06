@@ -109,7 +109,7 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
 
     $scope.hideCourse = function(version) {
         console.log(version);
-        if (version.visibile) {
+        if (version.visible) {
             var removeHiddenVersion = new RestDeleteNetworkHiddenCourses({id_network: $scope.network.id,
                                                                 name_product:version.name_product,
                                                                 name_course:version.name});
