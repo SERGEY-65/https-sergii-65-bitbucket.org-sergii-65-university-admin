@@ -1,5 +1,10 @@
 'use strict';
 
+var host = document.location.host; 
+var baseUrl = "../";
+if (_.contains([ 'university.atlassian.com' ], host)) {
+  baseUrl = "/3.0/";
+}
 
 /*
  * Module definition and dependencies
@@ -22,7 +27,7 @@ angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
 //        controller: 'IndividualCtrl'
 //    })
     .when('/licenses', {
-        templateUrl: '../docroot/uac-admin/app/views/licenses.html',
+        templateUrl: baseUrl + 'docroot/uac-admin/app/views/licenses.html',
         controller: 'LicenseCtrl'
     })
 //    .when('/users', {

@@ -13,12 +13,12 @@ angular.module('UserAdminApp')
 
 	var host = $location.host(),
 		//baseUrl = 'http://172.24.253.17:8080/ahccu-server2';
-		baseUrl = '/magnoliaAuthor/uac/ahccu/api';
+	baseUrl = '/magnoliaAuthor/uac/ahccu/api';
 		//baseUrl = 'http://172.28.14.122:8080/ahccu-server';
-	if (_.contains([ 'university.atlassian.com', 'localhost' ], host)) {
+	if (_.contains([ 'university.atlassian.com' ], host)) {
 		//baseUrl = 'http://172.24.253.17:8080/ahccu-server2';
 		//baseUrl = 'http://172.28.14.122:8080/ahccu-server';
-		baseUrl = '/magnoliaAuthor/uac/ahccu/api';
+		baseUrl = '/2.0/ahccu/api';
 
 	}
 
@@ -36,7 +36,8 @@ angular.module('UserAdminApp')
 		RestBaseUrl + '/networks-admins/:user',
 		//RestBaseUrl + '/users/:user',
 		{
-			user: '@user'
+			user: '@user',
+			key: new Date().getTime()
 		}
 	);
 })
