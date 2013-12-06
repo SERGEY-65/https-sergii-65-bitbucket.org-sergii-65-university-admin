@@ -27,7 +27,7 @@ angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
 //        controller: 'IndividualCtrl'
 //    })
     .when('/licenses', {
-        templateUrl: baseUrl + 'docroot/uac-admin/app/views/licenses.html',
+        templateUrl: baseUrl + '/views/licenses.html',
         controller: 'LicenseCtrl'
     })
 //    .when('/users', {

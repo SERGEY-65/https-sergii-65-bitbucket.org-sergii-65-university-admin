@@ -7,11 +7,14 @@ angular.module('UserAdminApp').controller('MainCtrl',
 	 * TODO: Institute fallback in case this value is not present
 	 */
 	var userEmail = "";
-	RestCurrentUser.get({}, function (data) {
-		console.log(data);
-		userEmail = data.userid;
-		$scope.$broadcast("$userIdRetrieved");
-	});
+	// RestCurrentUser.get({}, function (data) {
+	// 	console.log(data);
+	// 	// userEmail = data.userid;
+	// 	userEmail = "ekent@atlassian.com";
+	// 	$scope.$broadcast("$userIdRetrieved");
+	// });
+
+
 
     // ===============================================================================
     // SCOPE VALUES
@@ -22,7 +25,7 @@ angular.module('UserAdminApp').controller('MainCtrl',
      * in the page header.
      */
 	$scope.networks = [];
-	$scope.$on('$userIdRetrieved', function() {
+	$scope.$on('$userIdRetrieved', function() {		
 		RestAdminNetworks.query({ user: userEmail }, function (networks) {
 
 			// Hacky promise workaround until official Angular1.2 upgrade of
@@ -103,5 +106,7 @@ angular.module('UserAdminApp').controller('MainCtrl',
 			i--;
 		}
 	});
-
+		userEmail = "ekent@atlassian.com";
+		$scope.$broadcast("$userIdRetrieved");
 });
+

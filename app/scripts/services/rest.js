@@ -12,8 +12,8 @@ angular.module('UserAdminApp')
 .factory('RestBaseUrl', function ($location) {
 
 	var host = $location.host(),
-		//baseUrl = 'http://172.24.253.17:8080/ahccu-server2';
-	baseUrl = '/magnoliaAuthor/uac/ahccu/api';
+		baseUrl = 'ahccu-server';
+	// baseUrl = '/magnoliaAuthor/uac/ahccu/api';
 		//baseUrl = 'http://172.28.14.122:8080/ahccu-server';
 	if (_.contains([ 'university.atlassian.com' ], host)) {
 		//baseUrl = 'http://172.24.253.17:8080/ahccu-server2';
