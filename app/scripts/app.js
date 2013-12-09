@@ -9,38 +9,42 @@ if (_.contains([ 'university.atlassian.com' ], host)) {
 /*
  * Module definition and dependencies
  */
-angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
+ angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
 
 
 /*
  * Configuration & Routing
  */
-.config(function ($routeProvider, $httpProvider) {
+ .config(function ($routeProvider, $httpProvider) {
 
-    $routeProvider
-//    .when('/domains', {
-//        templateUrl: '../docroot/uac-admin/app/views/domains.html',
-//        controller: 'DomainCtrl'
- //   })
-//    .when('/individual', {
-//        templateUrl: '../docroot/uac-admin/app/views/individual.html',
-//        controller: 'IndividualCtrl'
-//    })
-    .when('/licenses', {
-        templateUrl: baseUrl + '/views/licenses.html',
-        controller: 'LicenseCtrl'
-    })
-//    .when('/users', {
-//        templateUrl: '../docroot/uac-admin/app/views/users.html',
-//        controller: 'UserCtrl'
-//    })
-    .otherwise({
-        redirectTo: '/licenses'
-    });
+  $routeProvider
+  .when('/domains', {
+   templateUrl: baseUrl + '/views/domains.html',
+   controller: 'DomainCtrl'
+ })
+  .when('/individual', {
+   templateUrl: baseUrl + '/views/individual.html',
+   controller: 'IndividualCtrl'
+ })
+  .when('/licenses', {
+    templateUrl: baseUrl + '/views/licenses.html',
+    controller: 'LicenseCtrl'
+  })
+  .when('/users', {
+   templateUrl: baseUrl + '/views/users.html',
+   controller: 'UserCtrl'
+ })
+  .when('/visual', {
+    templateUrl: baseUrl + '/views/visual.html',
+   controller: 'VisualCtrl'
+ })
+  .otherwise({
+    redirectTo: '/licenses'
+  });
 
     // $locationProvider.html5Mode(true);
 
-})
+  })
 
 // ***
 // For inline edit control seen on networks page
@@ -109,8 +113,8 @@ angular.module('UserAdminApp', [ 'ngResource', 'Storage' ])
 /*
  * Bootstrap
  */
-.run(function () {
+ .run(function () {
 
 
 
-});
+ });

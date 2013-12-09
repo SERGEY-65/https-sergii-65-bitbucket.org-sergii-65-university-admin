@@ -1,0 +1,32 @@
+<div class="aui-group">
+	<h4>Visual</h4>
+	<div class="aui-group"></div>
+	<input id="demo-date-picker" type="date" />
+	<h1>chart</h1>
+	<canvas id="the_chart" width="600" height="400"></canvas>
+	<h1>sorted table</h1>
+	<table class="aui aui-table-sortable tablesorter tablesorter-default">
+		<thead>
+			<tr class="tablesorter-headerRow">
+				<th class="tablesorter-header"
+				ng-click="reverse=!reverse;orderField='company'"
+				ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+				<div class="tablesorter-header-inner">
+					<span class="aui-table-header-content">Company</span>
+				</div>
+			</th>
+			<th class="tablesorter-header"
+			ng-click="reverse=!reverse;orderField='users'"
+			ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+			<div class="tablesorter-header-inner">
+				<span class="aui-table-header-content">Users</span>
+			</div>
+		</th>	
+	</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+
+</div>
