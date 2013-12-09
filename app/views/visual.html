@@ -1,32 +1,78 @@
 <div class="aui-group">
-	<h4>Visual</h4>
-	<div class="aui-group"></div>
-	<input id="demo-date-picker" type="date" />
-	<h1>chart</h1>
-	<canvas id="the_chart" width="600" height="400"></canvas>
-	<h1>sorted table</h1>
-	<table class="aui aui-table-sortable tablesorter tablesorter-default">
-		<thead>
-			<tr class="tablesorter-headerRow">
-				<th class="tablesorter-header"
-				ng-click="reverse=!reverse;orderField='company'"
-				ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
-				<div class="tablesorter-header-inner">
-					<span class="aui-table-header-content">Company</span>
-				</div>
-			</th>
-			<th class="tablesorter-header"
-			ng-click="reverse=!reverse;orderField='users'"
-			ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
-			<div class="tablesorter-header-inner">
-				<span class="aui-table-header-content">Users</span>
-			</div>
-		</th>	
-	</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+
+	<nav class="aui-navgroup aui-navgroup-horizontal">
+		<div class="aui-navgroup-inner">
+			<div class="aui-navgroup-primary">
+				<form action="#" method="post" id="d" class="aui">
+					<div id="button-set1" class="aui-buttons">
+
+						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-course" aria-haspopup="true" data-container="#button-set1">Courses</button>
+						<div id="dropdown2-course" class="aui-dropdown2 aui-style-default">
+							<input id="quicksearchid" class="search" type="text" placeholder="Search" name="quicksearchname">
+							<ul class="aui-list-truncate">
+								<li ng-repeat='l in lessonNames '>
+									<div class="checkbox">
+										<input class="checkbox" type="checkbox" name="{{ l }}" id="cbThree">
+										<label for="cbThree">{{ l }}</label>
+									</div>
+								</li>
+							</ul>
+						</div>
+
+
+						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-datestart" aria-haspopup="true" data-container="#button-set1">Date Start</button>
+						<div id="dropdown2-datestart" class="aui-dropdown2 aui-style-default">
+							<ul class="aui-list-truncate">
+								<li><input onmouseup="mouseUp()" id="demo-date-picker1" type="date"/></li>
+							</ul>
+						</div>
+
+						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-dateend" aria-haspopup="true" data-container="#button-set1">Date End</button>
+						<div id="dropdown2-dateend" class="aui-dropdown2 aui-style-default">
+							<ul class="aui-list-truncate">
+								<li><input id="demo-date-picker2" type="date"/></li>
+							</ul>
+						</div>
+
+						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-company" aria-haspopup="true" data-container="#button-set1">Companies</button>
+						<div id="dropdown2-company" class="aui-dropdown2 aui-style-default">
+							<input id="quicksearchid" class="search" type="text" placeholder="Search" name="quicksearchname">
+							<ul class="aui-list-truncate">
+								<li>Atlassian</li>
+							</ul>
+						</div>
+
+					</div>
+					<button class="aui-button aui-button-primary">Update</button>
+				</form>
+			</div><!-- .aui-navgroup-primary -->
+		</div><!-- .aui-navgroup-inner -->
+	</nav>
+
+
+
+	<div class="aui-group">
+		<h1>chart</h1>
+		<canvas id="the_chart" width="800" height="600"></canvas>
+		<h1>table</h1>
+		<table class="aui" >
+			<thead>
+				<tr>
+					<th id="basic-number">Lesson Name</th>
+					<th id="basic-fname">Count</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td headers="basic-number">lesson</td>
+					<td headers="basic-fname">100</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+
 
 
 </div>
