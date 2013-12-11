@@ -46,6 +46,7 @@ angular.module('UserAdminApp').controller('VisualCtrl', function ($scope, RestNe
     // PRIVATE FUNCTIONS
     // ===============================================================================
 
+
     var getTitles = function (array) {
         var ra = [];
         for (var i = array.length - 1; i >= 0; i--) {
@@ -62,10 +63,21 @@ angular.module('UserAdminApp').controller('VisualCtrl', function ($scope, RestNe
     // SCOPE VALUES
     // ===============================================================================
 
+    var courseNames = _.map(coursesMock, function(setEntity){
+        return setEntity['title'];
+    });
+
+    var lessonNames = _.map(userMock, function(setEntity){
+        return setEntity['name-lesson'];
+    });
+
+    console.log(lessonNames);
+    console.log(courseNames);
+
     //Arrays
-    $scope.lessonNames = getTitles(coursesMock); 
+    $scope.courseNames = courseNames; 
+    $scope.lessonNames = lessonNames;
     $scope.companyNames = ["Atlassian", "HubSpot", "Rakuten", "Company #2", "Company #3"];
-    $scope.lessonCount;
 
     // $scope.reverse = false;
     // $scope.orderField = 'email';
@@ -100,7 +112,7 @@ angular.module('UserAdminApp').controller('VisualCtrl', function ($scope, RestNe
         }]
     };
 
-    var hi_value = _.max(data['datasets'][0]['data']);
+    var hi_value = _.max(graphdata['datasets'][0]['data']);
     var ctx = document.getElementById("the_chart").getContext("2d");
     var myNewChart = new Chart(ctx).Bar(graphdata,{
         scaleOverlay : false,
