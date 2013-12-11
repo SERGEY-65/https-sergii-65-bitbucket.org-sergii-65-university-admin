@@ -3,43 +3,60 @@
 	<nav class="aui-navgroup aui-navgroup-horizontal">
 		<div class="aui-navgroup-inner">
 			<div class="aui-navgroup-primary">
-				<form action="#" method="post" id="d" class="aui">
+				<form action="#/visual" method="post" id="d" class="aui">
 					<div id="button-set1" class="aui-buttons">
 
 						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-course" aria-haspopup="true" data-container="#button-set1">Courses</button>
 						<div id="dropdown2-course" class="aui-dropdown2 aui-style-default">
-							<input id="quicksearchid" class="search" type="text" placeholder="Search" name="quicksearchname">
-							<ul class="aui-list-truncate">
-								<li ng-repeat='l in lessonNames '>
-									<div class="checkbox">
-										<input class="checkbox" type="checkbox" name="{{ l }}" id="cbThree">
-										<label for="cbThree">{{ l }}</label>
-									</div>
-								</li>
-							</ul>
+							<div class="aui-dropdown2-section">
+								<ul class="aui-list-truncate">
+									<li><a onclick="test()">All Courses</a></li>
+								</ul>
+							</div>
+							<div class="aui-dropdown2-section">
+								<ul class="aui-list-truncate">
+									<li ng-repeat='l in lessonNames'>
+										<div class="dropdownlistitem">
+											<input class="checkbox" type="checkbox" name="{{ l }}" id="cbThree"/>
+											<label for="cbThree">{{ l }}</label>
+										</div>
+									</li>
+								</ul>
+							</div>
 						</div>
 
-
-						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-datestart" aria-haspopup="true" data-container="#button-set1">Date Start</button>
-						<div id="dropdown2-datestart" class="aui-dropdown2 aui-style-default">
-							<ul class="aui-list-truncate">
-								<li><input onmouseup="mouseUp()" id="demo-date-picker1" type="date"/></li>
-							</ul>
-						</div>
-
-						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-dateend" aria-haspopup="true" data-container="#button-set1">Date End</button>
-						<div id="dropdown2-dateend" class="aui-dropdown2 aui-style-default">
-							<ul class="aui-list-truncate">
-								<li><input id="demo-date-picker2" type="date"/></li>
-							</ul>
+						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-date-start" aria-haspopup="true">Date Range	</button>
+						<div id="dropdown2-date-start" class="aui-dropdown2 aui-style-default">
+							<div class="aui-dropdown2-section">
+								<ul class="aui-list-truncate">
+									<li><a onclick="test()">Last day</a></li>
+									<li><a onclick="test()">Last 30 days</a></li>
+									<li><a onclick="test()">Last 6 months</a></li>
+								</ul>
+							</div>
+							<div class="aui-dropdown2-section">
+								<ul class="aui-list-truncate">
+									<strong>Start</strong>
+									<li class="dropdownlistitem"><input id="date-picker-start" type="date"/></li>
+									<strong>End</strong>
+									<li class="dropdownlistitem"><input id="date-picker-end" type="date"/></li>
+								</ul>
+							</div>
 						</div>
 
 						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-company" aria-haspopup="true" data-container="#button-set1">Companies</button>
 						<div id="dropdown2-company" class="aui-dropdown2 aui-style-default">
-							<input id="quicksearchid" class="search" type="text" placeholder="Search" name="quicksearchname">
-							<ul class="aui-list-truncate">
-								<li>Atlassian</li>
-							</ul>
+							<input id="quicksearchid" ng-model="companySearch" type="search" placeholder="Search" name="quicksearchname">
+							<div class="aui-dropdown2-section">
+								<ul class="aui-list-truncate">
+									<li><a href="">All Companies</a></li>
+								</ul>
+							</div>
+							<div class="aui-dropdown2-section">
+								<ul class="aui-list-truncate">
+									<li ng-repeat='n in companyNames | filter:companySearch'><a href="">{{ n }}</a></li>
+								</ul>
+							</div>
 						</div>
 
 					</div>
@@ -52,9 +69,12 @@
 
 
 	<div class="aui-group">
-		<h1>chart</h1>
+		<!-- <h1>chart</h1> -->
 		<canvas id="the_chart" width="800" height="600"></canvas>
-		<h1>table</h1>
+	</div>
+
+	<div class="aui-group">
+		<!-- <h1>table</h1> -->
 		<table class="aui" >
 			<thead>
 				<tr>
@@ -69,10 +89,6 @@
 				</tr>
 			</tbody>
 		</table>
-
 	</div>
-
-
-
 
 </div>

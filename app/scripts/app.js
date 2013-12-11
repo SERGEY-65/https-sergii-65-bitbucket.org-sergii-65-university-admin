@@ -36,8 +36,8 @@ if (_.contains([ 'university.atlassian.com' ], host)) {
  })
   .when('/visual', {
     templateUrl: baseUrl + '/views/visual.html',
-   controller: 'VisualCtrl'
- })
+    controller: 'VisualCtrl'
+  })
   .otherwise({
     redirectTo: '/licenses'
   });

@@ -24,11 +24,11 @@
 	cursor: pointer;
 }
 
-.aui-dropdown2.aui-style-default a {
+.aui-dropdown2.aui-style-default a{
 	padding: 6px 10px;		
 }
 
-.aui-dropdown2.aui-style-default {
+.dropdownlistitem {
 	padding: 6px 10px;		
 }
 

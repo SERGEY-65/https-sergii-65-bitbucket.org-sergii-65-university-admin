@@ -2,26 +2,22 @@
  * $resource RESTful setup and configuration
  * http://docs.angularjs.org/api/ngResource.$resource
  */
-angular.module('UserAdminApp')
+ angular.module('UserAdminApp')
 
 
 /*
  * Base domain url for all RESTful resources. Is aware of the environment
  * it is running in, and will return the appropriate base url for that env
  */
-.factory('RestBaseUrl', function ($location) {
-
-	var host = $location.host(),
-		baseUrl = 'ahccu-server';
-	// baseUrl = '/magnoliaAuthor/uac/ahccu/api';
-		//baseUrl = 'http://172.28.14.122:8080/ahccu-server';
-	if (_.contains([ 'university.atlassian.com' ], host)) {
+ .factory('RestBaseUrl', function ($location) {
+ 	var host = $location.host(),
+ 	baseUrl = 'ahccu-server';
+		// baseUrl = '/magnoliaAuthor/uac/ahccu/api';
+		if (_.contains([ 'university.atlassian.com' ], host)) {
 		//baseUrl = 'http://172.24.253.17:8080/ahccu-server2';
 		//baseUrl = 'http://172.28.14.122:8080/ahccu-server';
 		baseUrl = '/2.0/ahccu/api';
-
 	}
-
 	return baseUrl;
 })
 
@@ -30,31 +26,41 @@ angular.module('UserAdminApp')
  * NETWORKS FOR LOGGED IN USER
  * pass in user email - from __ATL_USER cookie
  */
-.factory('RestAdminNetworks', function ($resource, RestBaseUrl) {
+ .factory('RestAdminNetworks', function ($resource, RestBaseUrl) {
 
-	return $resource(
-		RestBaseUrl + '/networks-admins/:user',
+ 	return $resource(
+ 		RestBaseUrl + '/networks-admins/:user',
 		//RestBaseUrl + '/users/:user',
 		{
 			user: '@user',
 			key: new Date().getTime()
 		}
-	);
-})
+		);
+ })
 
 
 /*
  * NETWORK DETAILS
  */
-.factory('RestNetwork', function ($resource, RestBaseUrl) {
+ .factory('RestNetwork', function ($resource, RestBaseUrl) {
 
-	return $resource(
-		RestBaseUrl + '/networks/:id',
-		{
-			id: '@id'
-		}
-	);
-})
+ 	return $resource(
+ 			RestBaseUrl + '/networks/:id',
+ 		{
+ 			id: '@id'
+ 		}
+ 		);
+ }) 
+
+ .factory('RestLessonsUsers', function ($resource, RestBaseUrl) {
+
+ 	return $resource(
+ 			RestBaseUrl + '/lessons-users',
+ 		{
+ 			id: '@id' 			
+ 		}
+ 		);
+ })
 
 
 /*
@@ -75,14 +81,14 @@ angular.module('UserAdminApp')
 /*
  * DOMAINS BY NETWORK
  */
-.factory('RestNetworkDomain', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/networks-domains-by-network/:network/',
-		{
-			network: '@network'
-		}
-	);
-})
+ .factory('RestNetworkDomain', function ($resource, RestBaseUrl) {
+ 	return $resource(
+ 		RestBaseUrl + '/networks-domains-by-network/:network/',
+ 		{
+ 			network: '@network'
+ 		}
+ 		);
+ })
 
 /*
  * DOMAINS
@@ -99,110 +105,118 @@ angular.module('UserAdminApp')
  *     domain.url = 'somethingnew';
  *     domain.$save();
  */
-.factory('RestDomain', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/networks-domains/:network/:id/',
-		{
-			id: '@id',
-			network: '@network'
-		}
-	);
-})
+ .factory('RestDomain', function ($resource, RestBaseUrl) {
+ 	return $resource(
+ 		RestBaseUrl + '/networks-domains/:network/:id/',
+ 		{
+ 			id: '@id',
+ 			network: '@network'
+ 		}
+ 		);
+ })
 
 /*
  * NETWORK USERS
  */
-.factory('RestNetworkUser', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/networks-users/:network/:user',
-		{
-			user: '@user',
-			network: '@network'
-		}
-	);
-})
+ .factory('RestNetworkUser', function ($resource, RestBaseUrl) {
+ 	return $resource(
+ 		RestBaseUrl + '/networks-users/:network/:user',
+ 		{
+ 			user: '@user',
+ 			network: '@network'
+ 		}
+ 		);
+ })
 
 
 /*
  * USER
  */
-.factory('RestCurrentUser', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/user',
-		{
-		}
-	);
-})
+ .factory('RestCurrentUser', function ($resource, RestBaseUrl) {
+ 	return $resource(
+ 		RestBaseUrl + '/user',
+ 		{
+ 		}
+ 		);
+ })
 
 /*
  * USERS
  */
-.factory('RestUser', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/users/:user',
-		{
-			user: '@user'
-		}
-	);
-})
+ .factory('RestUser', function ($resource, RestBaseUrl) {
+ 	return $resource(
+ 		RestBaseUrl + '/users/:user',
+ 		{
+ 			user: '@user'
+ 		}
+ 		);
+ }) 
+
+ // .factory('RestUser', function ($resource, RestBaseUrl) {
+ // 	return $resource(
+ // 		RestBaseUrl + '/users/:user',
+ // 		{
+ // 			user: '@user'
+ // 		}
+ // 		);
+ // })
 
 
 /*
  * SENS FOR A GIVEN NETWORK
  */
-.factory('RestNetworkSens', function ($resource, RestBaseUrl) {
+ .factory('RestNetworkSens', function ($resource, RestBaseUrl) {
 
-	return $resource(
-		RestBaseUrl + '/network-sens/:network/',
-		{
-			network: '@network'
-		}
-	);
-})
+ 	return $resource(
+ 		RestBaseUrl + '/network-sens/:network/',
+ 		{
+ 			network: '@network'
+ 		}
+ 		);
+ })
 
 
 /*
  * COURSES
  */
-.factory('RestCourses', function ($resource, RestBaseUrl) {
+ .factory('RestCourses', function ($resource, RestBaseUrl) {
 
-	return $resource(
-		RestBaseUrl + '/product-courses/:product',
-		{
-			product: '@product'
-		}
-	);
-})
+ 	return $resource(
+ 		RestBaseUrl + '/product-courses/:product',
+ 		{
+ 			product: '@product'
+ 		}
+ 		);
+ })
 
-.factory('RestNetworkHiddenCourses', function ($resource, RestBaseUrl) {
+ .factory('RestNetworkHiddenCourses', function ($resource, RestBaseUrl) {
 
-	return $resource(
-		RestBaseUrl + '/networks-hidden-courses-by-id-network/:network/',
-		{
-			network: '@network'
-		}
-	);
-})
+ 	return $resource(
+ 		RestBaseUrl + '/networks-hidden-courses-by-id-network/:network/',
+ 		{
+ 			network: '@network'
+ 		}
+ 		);
+ })
 
-.factory('RestDeleteNetworkHiddenCourses', function ($resource, RestBaseUrl) {
+ .factory('RestDeleteNetworkHiddenCourses', function ($resource, RestBaseUrl) {
 
-	return $resource(
-		RestBaseUrl + '/networks-hidden-courses-by-id-network/:network/:course/:version',
-		{
-			network: '@id_network',
-			course: '@name_product',
-			version: '@name_course'
-		}
-	);
-})
+ 	return $resource(
+ 		RestBaseUrl + '/networks-hidden-courses-by-id-network/:network/:course/:version',
+ 		{
+ 			network: '@id_network',
+ 			course: '@name_product',
+ 			version: '@name_course'
+ 		}
+ 		);
+ })
 
+ .factory('RestNetworksCoursesByNetwork', function ($resource, RestBaseUrl) {
 
-.factory('RestNetworksCoursesByNetwork', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/selected-networks-courses-by-network/:network',
-		{
-			network: '@network'
-		}
-	);
-});
+ 	return $resource(
+ 		RestBaseUrl + '/selected-networks-courses-by-network/:network',
+ 		{
+ 			network: '@network'
+ 		}
+ 		);
+ });

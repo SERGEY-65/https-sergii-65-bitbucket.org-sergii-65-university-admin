@@ -1,5 +1,4 @@
-angular.module('UserAdminApp').controller('UserCtrl',
-    function ($scope, RestNetworkUser, Util, SessionStorage) {
+angular.module('UserAdminApp').controller('UserCtrl', function ($scope, RestNetworkUser, Util, SessionStorage) {
 
     // ===============================================================================
     // PRIVATE FUNCTIONS
