@@ -3,22 +3,20 @@
 	<nav class="aui-navgroup aui-navgroup-horizontal">
 		<div class="aui-navgroup-inner">
 			<div class="aui-navgroup-primary">
-				<form action="#/visual" method="post" id="d" class="aui">
 					<div id="button-set1" class="aui-buttons">
-
 						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-course" aria-haspopup="true" data-container="#button-set1">Courses</button>
 						<div id="dropdown2-course" class="aui-dropdown2 aui-style-default">
 							<div class="aui-dropdown2-section">
 								<ul class="aui-list-truncate">
-									<li><a onclick="test()">All Courses</a></li>
+									<li><a ng-click="test()">All Courses</a></li>
 								</ul>
 							</div>
 							<div class="aui-dropdown2-section">
 								<ul class="aui-list-truncate">
-									<li ng-repeat='l in lessonNames'>
+									<li ng-repeat='c in courseNames'>
 										<div class="dropdownlistitem">
-											<input class="checkbox" type="checkbox" name="{{ l }}" id="cbThree"/>
-											<label for="cbThree">{{ l }}</label>
+											<input class="checkbox" type="checkbox" name="{{ c }}" id="cbThree"/>
+											<label for="cbThree">{{ c }}</label>
 										</div>
 									</li>
 								</ul>
@@ -29,9 +27,9 @@
 						<div id="dropdown2-date-start" class="aui-dropdown2 aui-style-default">
 							<div class="aui-dropdown2-section">
 								<ul class="aui-list-truncate">
-									<li><a onclick="test()">Last day</a></li>
-									<li><a onclick="test()">Last 30 days</a></li>
-									<li><a onclick="test()">Last 6 months</a></li>
+									<li><a ng-click="test()">Last day</a></li>
+									<li><a ng-click="test()">Last 30 days</a></li>
+									<li><a ng-click="test()">Last 6 months</a></li>
 								</ul>
 							</div>
 							<div class="aui-dropdown2-section">
@@ -60,8 +58,7 @@
 						</div>
 
 					</div>
-					<button class="aui-button aui-button-primary">Update</button>
-				</form>
+					<button ng-click="update()" class="aui-button aui-button-primary">Update</button>
 			</div><!-- .aui-navgroup-primary -->
 		</div><!-- .aui-navgroup-inner -->
 	</nav>
@@ -70,7 +67,7 @@
 
 	<div class="aui-group">
 		<!-- <h1>chart</h1> -->
-		<canvas id="the_chart" width="800" height="600"></canvas>
+		<canvas id="theChart" width="1000" height="800"></canvas>
 	</div>
 
 	<div class="aui-group">

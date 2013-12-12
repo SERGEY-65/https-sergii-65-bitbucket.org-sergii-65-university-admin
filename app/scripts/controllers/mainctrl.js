@@ -6,6 +6,7 @@ angular.module('UserAdminApp').controller('MainCtrl',
 	 * Get the currently logged in User ID from the server-set cookie
 	 * TODO: Institute fallback in case this value is not present
 	 */
+	 
 	var userEmail = "";
 	// RestCurrentUser.get({}, function (data) {
 	// 	console.log(data);

@@ -52,12 +52,12 @@
  		);
  }) 
 
- .factory('RestLessonsUsers', function ($resource, RestBaseUrl) {
+ .factory('RestVisual', function ($resource, RestBaseUrl) {
 
  	return $resource(
- 			RestBaseUrl + '/lessons-users',
+ 			RestBaseUrl + '/visual',
  		{
- 			id: '@id' 			
+ 				
  		}
  		);
  })
