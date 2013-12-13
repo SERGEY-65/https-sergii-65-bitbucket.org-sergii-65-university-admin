@@ -3,62 +3,63 @@
 	<nav class="aui-navgroup aui-navgroup-horizontal">
 		<div class="aui-navgroup-inner">
 			<div class="aui-navgroup-primary">
-					<div id="button-set1" class="aui-buttons">
-						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-course" aria-haspopup="true" data-container="#button-set1">Courses</button>
-						<div id="dropdown2-course" class="aui-dropdown2 aui-style-default">
-							<div class="aui-dropdown2-section">
-								<ul class="aui-list-truncate">
-									<li><a ng-click="test()">All Courses</a></li>
-								</ul>
-							</div>
-							<div class="aui-dropdown2-section">
-								<ul class="aui-list-truncate">
-									<li ng-repeat='c in courseNames'>
-										<div class="dropdownlistitem">
-											<input class="checkbox" type="checkbox" name="{{ c }}" id="cbThree"/>
-											<label for="cbThree">{{ c }}</label>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-
-						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-date-start" aria-haspopup="true">Date Range	</button>
-						<div id="dropdown2-date-start" class="aui-dropdown2 aui-style-default">
-							<div class="aui-dropdown2-section">
-								<ul class="aui-list-truncate">
-									<li><a ng-click="test()">Last day</a></li>
-									<li><a ng-click="test()">Last 30 days</a></li>
-									<li><a ng-click="test()">Last 6 months</a></li>
-								</ul>
-							</div>
-							<div class="aui-dropdown2-section">
-								<ul class="aui-list-truncate">
-									<strong>Start</strong>
-									<li class="dropdownlistitem"><input id="date-picker-start" type="date"/></li>
-									<strong>End</strong>
-									<li class="dropdownlistitem"><input id="date-picker-end" type="date"/></li>
-								</ul>
-							</div>
-						</div>
-
-						<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-company" aria-haspopup="true" data-container="#button-set1">Companies</button>
-						<div id="dropdown2-company" class="aui-dropdown2 aui-style-default">
-							<input id="quicksearchid" ng-model="companySearch" type="search" placeholder="Search" name="quicksearchname">
-							<div class="aui-dropdown2-section">
-								<ul class="aui-list-truncate">
-									<li><a href="">All Companies</a></li>
-								</ul>
-							</div>
-							<div class="aui-dropdown2-section">
-								<ul class="aui-list-truncate">
-									<li ng-repeat='n in companyNames | filter:companySearch'><a href="">{{ n }}</a></li>
-								</ul>
-							</div>
-						</div>
-
+				<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-course" aria-haspopup="true" data-container="#button-set1">Courses</button>
+				<div id="dropdown2-course" class="aui-dropdown2 aui-style-default">
+					<div class="aui-dropdown2-section">
+						<ul class="aui-list-truncate">
+							<li ng-click="selectAllCourses()"><a>All Courses</a></li>
+						</ul>
 					</div>
-					<button ng-click="update()" class="aui-button aui-button-primary">Update</button>
+					<div class="aui-dropdown2-section">
+						<ul class="aui-list-truncate">
+							<li ng-repeat='c in courseNames'>
+								<div class="dropdownlistitem">
+									<input class="checkbox" type="checkbox" name="{{ c }}" id="{{ c }}"/>
+									<label for="cbThree">{{ c }}</label>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-date-start" aria-haspopup="true">Date Start</button>
+				<div id="dropdown2-date-start" class="aui-dropdown2 aui-style-default">
+					<div class="aui-dropdown2-section">
+						<ul class="aui-list-truncate">
+							<li class="dropdownlistitem">
+								<input class="aui-date-picker" id="date-picker-start" type="date"/>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-date-end" aria-haspopup="true">Date End</button>
+				<div id="dropdown2-date-end" class="aui-dropdown2 aui-style-default">
+					<div class="aui-dropdown2-section">
+						<ul class="aui-list-truncate">
+							<li class="dropdownlistitem">
+								<input class="aui-date-picker" id="date-picker-end" type="date"/>
+							</li>
+						</ul>
+					</div>
+				</div>				
+
+				<button class="aui-button aui-dropdown2-trigger aui-button-subtle" aria-owns="dropdown2-company" aria-haspopup="true" data-container="#button-set1">{{ memory["company"] || "Companies"}}</button>
+				<div id="dropdown2-company" class="aui-dropdown2 aui-style-default">
+					<input id="quicksearchid" ng-model="companySearch" type="search" placeholder="Search" name="quicksearchname">
+					<div class="aui-dropdown2-section">
+						<ul class="aui-list-truncate">
+							<li><a ng-click="allCompanies()">All Companies</a></li>
+						</ul>
+					</div>
+					<div class="aui-dropdown2-section">
+						<ul class="aui-list-truncate">
+							<li ng-repeat='n in companyNames | filter:companySearch'><a ng-click="addCompany( n )">{{ n }}</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<button ng-click="update()" class="aui-button aui-button-primary">Update</button>
 			</div><!-- .aui-navgroup-primary -->
 		</div><!-- .aui-navgroup-inner -->
 	</nav>
@@ -75,14 +76,14 @@
 		<table class="aui" >
 			<thead>
 				<tr>
-					<th id="basic-number">Lesson Name</th>
-					<th id="basic-fname">Count</th>
+					<th id="basic-number">Company Name</th>
+					<th id="basic-fname">Logged in Users</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td headers="basic-number">lesson</td>
-					<td headers="basic-fname">100</td>
+					<td headers="basic-number">Total</td>
+					<td headers="basic-fname">{{ memory["total"] }}</td>
 				</tr>
 			</tbody>
 		</table>

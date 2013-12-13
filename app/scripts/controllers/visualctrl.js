@@ -65,7 +65,7 @@ angular.module('UserAdminApp').controller('VisualCtrl', function ($scope, RestNe
             if ( !(_.contains(searchParams["courses"], setEntity["title-course"])) ) {
                 ret = false;
             }
-            else if (setEntity["name-company"] != searchParams["company"]) {
+            else if ( !(_.contains(searchParams["companies"], setEntity["name-company"])) ) {
                 ret = false;
             } 
             else if (entityDate < startDate || entityDate > endDate) {
@@ -91,6 +91,13 @@ angular.module('UserAdminApp').controller('VisualCtrl', function ($scope, RestNe
             });
             return lessonCounter; 
         });
+
+        // not good but i'm lazy
+        if ( !_.isEmpty(model["values"]) ){
+            $scope.memory["total"] = _.reduce(model["values"], function(memo, num){
+                return memo + num;
+            });
+        }
          
         model["highest"] = _.max(model["values"]);
         
@@ -104,34 +111,84 @@ angular.module('UserAdminApp').controller('VisualCtrl', function ($scope, RestNe
     };
 
     //Updates via dom
-    var updateExtractionParams = function(params) {
+    var updateSearchParams = function() {
+        var searchModel = {};
+
+        searchModel["courses"] = [];
+        _.each($scope.courseNames, function(coursename){
+            if ( document.getElementById(coursename).checked ) {
+                searchModel["courses"].push(coursename);
+            }
+        });
+
+        searchModel["companies"] = [];
+        var tkn = $scope.memory["company"];
+        if (tkn == "All Companies" || tkn == null) {
+            searchModel["companies"] = $scope.companyNames;
+        } else {
+            searchModel["companies"].push(tkn);
+        }
         
+        if ( createDate(document.getElementById('date-picker-start').value) > createDate(document.getElementById('date-picker-end').value) ){
+            document.getElementById('date-picker-start').value = document.getElementById('date-picker-end').value;
+        }
+        searchModel["date-start"] = document.getElementById('date-picker-start').value;
+        searchModel["date-end"] = document.getElementById('date-picker-end').value;
+
+        return searchModel;
     };
 
     // ===============================================================================
     // SCOPE VALUES
     // ===============================================================================
 
+
     //Arrays
-    $scope.courseNames = ["JIRA 6.0", "JIRA 5.2"]; 
+    $scope.courseNames = ["JIRA 6.0", "JIRA 5.2", "JIRA 5.1", "JIRA 5.0", "JIRA 4.4", "Confluence 5.0", "Confluence 4.3", "Confluence 4.0", "Confluence 3.5", "GreenHopper 6.0", "GreenHopper 5.9", "GreenHopper 5.7"]; 
     $scope.companyNames = ["atlassian", "hubspot"];
+    $scope.memory = {"allCoursesSelected":false,"company":null,"course":null,"total":0};
     // $scope.courseNames = extractUniqueData(storageMock, 'title-course'); 
     // $scope.companyNames = extractUniqueData(storageMock, 'name-company');
     
-    //Initally set
-    var searchParams = {"company":"atlassian","courses":["JIRA 6.0", "JIRA 5.2"],"date-start":"2013-12-09","date-end":"2013-12-09"};
+    //Model Vars
+    var searchParams = {"companies":["atlassian", "hubspot"], "courses":["JIRA 6.0", "JIRA 5.2"], "date-start":"2013-12-09", "date-end":"2013-12-10"};
+
+
 
     //Event Functions
-    $scope.update = function(){
+    $scope.selectAllCourses = function(){
+        if ($scope.memory["allCoursesSelected"]==false) {
+            _.each($scope.courseNames, function(coursename){ 
+                document.getElementById(coursename).checked = true;
+            });
+            $scope.memory["allCoursesSelected"]=true;
+        }
+        else {
+            _.each($scope.courseNames, function(coursename){ 
+                document.getElementById(coursename).checked = false;
+            });
+            $scope.memory["allCoursesSelected"]=false;
+        }
+    };
 
-        // updatesearchParams(searchParams);
+    $scope.addCompany = function(companyname){
+        $scope.memory["company"] = companyname;        
+    }
+
+    $scope.allCompanies = function(){
+        $scope.memory["company"] = "All Companies";
+    }
+
+    $scope.update = function(){   
+        searchParams = updateSearchParams();
         var ext_data = extractSearchedData(storageMock, searchParams);
         var mod_data = createModelData(ext_data);
-        // console.log(ext_data);
-        // console.log(mod_data);
+        $scope.drawChart(mod_data);
+    } 
 
+    $scope.drawChart = function(mod_data){
         var ctx = document.getElementById("theChart").getContext("2d");
-        var CHARTJS = new Chart(ctx).Bar(
+        var CHARTJS = new Chart(ctx).Bar (
         {
             labels : mod_data["labels"],
             datasets : [{
@@ -148,7 +205,7 @@ angular.module('UserAdminApp').controller('VisualCtrl', function ($scope, RestNe
             scaleStepWidth : 1,
             scaleStartValue : 0,
             scaleLineColor : "rgba(0,0,0,.2)",
-            scaleLineWidth : 2,
+            scaleLineWidth : 1,
             scaleShowLabels : true,
             scaleLabel : "<%=Math.round(value)%>",
             scaleFontFamily : "'Arial'",
@@ -167,11 +224,9 @@ angular.module('UserAdminApp').controller('VisualCtrl', function ($scope, RestNe
             animationEasing : "easeOutQuart",
             onAnimationComplete : null
         }); 
-    }; 
+}
 
-$scope.test = function(){
-    console.log("HELLO");
-};
+    $scope.drawChart(createModelData(extractSearchedData(storageMock, searchParams)));
 
     // ===============================================================================
     // AJS
@@ -180,10 +235,10 @@ $scope.test = function(){
     var date0 = AJS.$("#date-picker-start").datePicker({
         overrideBrowserDefault: true
     });
+
     var date1 = AJS.$("#date-picker-end").datePicker({
         overrideBrowserDefault: true
     });
 
-    $scope.update()
 
 });
