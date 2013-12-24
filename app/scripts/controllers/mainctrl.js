@@ -10,6 +10,7 @@ angular.module('UserAdminApp').controller('MainCtrl',
 	RestCurrentUser.get({}, function (data) {
 		console.log(data);
 		userEmail = data.userid;
+		$scope.currUser = userEmail;
 		$scope.$broadcast("$userIdRetrieved");
 	});
 
@@ -67,21 +68,26 @@ angular.module('UserAdminApp').controller('MainCtrl',
 			name: 'Licenses and Courses',
 			path: '#/licenses',
 			selected: true
-//		},
-//		{
-//			name: 'Domain Access',
-//			path: '#/domains',
-//			selected: true
-//		},
-//		{
-//			name: 'Individual Access',
-//			path: '#/individual',
-//			selected: false
-//		},
-//		{
-//			name: 'Users',
-//			path: '#/users',
-//			selected: false
+		},
+		{
+			name: 'Network Users',
+			path: '#/users',
+			selected: false
+		},
+		{
+			name: 'Invited Emails',
+			path: '#/individual',
+			selected: false
+		},
+		{
+			name: 'Domain Access',
+			path: '#/domains',
+			selected: false
+		},
+		{
+			name: 'Reporting',
+			path: '#/reporting',
+			selected: false
 		}
 	];
 

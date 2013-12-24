@@ -32,16 +32,22 @@ angular.module('UserAdminApp').controller('DomainCtrl',
     $scope.$on('$NetworkUpdate', loadNetworkData);
     loadNetworkData();
 
-    $scope.remove = function (domains) {
-        domains.$delete({ user: domains.id_user, network: domains.id_network });
-        $scope.domains = _.without($scope.domains, domains);
-        paginate();
+    $scope.remove = function (domain) {
+        var r=confirm("Are you sure?");
+        if (r==true)
+        {
+            domain.$delete({ network: $scope.network.id, id: domain.id_domain });
+            $scope.domains = _.without($scope.domains, domain);
+            paginate();
+        }
     };
 
     $scope.add = function () {
         var domain = new RestDomain({
-            id_network: $scope.network.id
+            id_network: $scope.network.id,
+            id_domain: $scope.entry
         });
+        $scope.entry="";
         domain.$save();
         $scope.domains.push(domain);
         paginate();

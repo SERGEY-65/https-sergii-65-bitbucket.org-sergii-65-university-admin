@@ -1,23 +1,24 @@
 <div class="aui-group">
-	<h4>Users</h4>
+	<h2>Network Users</h2>
+	<p>The users listed are users in this network.  Users in this list deduct one license from your user license count.</p>
 	<div class="aui-group">
-		<form action="" class="aui">
-			<button class="aui-button inline-button">Make Admin</button>
-			<button class="aui-button inline-button">Remove Admin</button>
-			<button class="aui-button inline-button">Remove from Network</button>
-		</form>
+		<div class="add-block">
+			<form action="" class="aui" name="entryForm">
+				<input type="email" class="text" ng-model="entry" required name="userEntry">
+				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.userEntry.$valid">Invite</button>
+			</form>
+		</div>
 	</div>
-
 </div>
 <div class="aui-group">
-	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default">
+	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default uac-user-table">
 		<thead>
 			<tr class="tablesorter-headerRow">
-				<th>
+				<!--<th class="first">
 					<div class="table-sorter-header-inner">
 						<input type="checkbox" class="checkbox">
 					</div>
-				</th>
+				</th>-->
 				<th class="tablesorter-header"
 					ng-click="reverse=!reverse;orderField='id_user'"
 					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
@@ -26,32 +27,45 @@
 					</div>
 				</th>
 				<th class="tablesorter-header"
-					ng-click="reverse=!reverse;orderField='roll'"
+					ng-click="reverse=!reverse;orderField='role'"
 					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
 					<div class="tablesorter-header-inner">
 						<span class="aui-table-header-content">Role</span>
 					</div>
 				</th>
-				<th>
-					<div class="tablesorter-header-inner">Licenses</div>
+				<th class="tablesorter-header"
+					ng-click="reverse=!reverse;orderField='activityDate'"
+					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+					<div class="tablesorter-header-inner">
+						<span class="aui-table-header-content">Last Login</span>
+					</div>
 				</th>
-				<th>
-					<div class="tablesorter-header-inner">Actions</div>
+				<th class="tablesorter-header">
+					<div class="tablesorter-header-inner">
+						<span class="aui-table-header-content">Actions</span>
+					</div>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in users | orderBy:orderField:reverse | limit:pagination.offset:pagination.limit">
-				<td>
+			<tr ng-repeat="user in users | filter:entry | orderBy:orderField:reverse | limit:pagination.offset:pagination.limit">
+				<!--<td class="first">
 					<input type="checkbox" class="checkbox" ng-model="user.checked">
-				</td>
+				</td>-->
 				<td><a href="mailto:{{ user.id_user }}">{{ user.id_user }}</a></td>
-				<td>{{ user.roll }}</td>
-				<td></td>
+				<td>
+                    <form action="" class="aui inline-form" name="userRoleForm">
+                        <select class="select" name="userRoleSelect" id="" ng-model="user.role" ng-change="updateRole(user)">
+						    <option value="user">User</option>
+						    <option value="admin">Admin</option>
+                        </select>
+                    </form>
+				</td>
+				<td>{{ user.activityDate }}</td>
 				<td class="aui-compact-button-column">
 					<div class="inline-actions">
-						<button class="aui-button aui-button-compact">
-							<span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span>
+							<button class="aui-button aui-button-compact" ng-click="remove(user)">
+							<span class="aui-icon aui-icon-small aui-iconfont-remove">Remove</span>
 						</button>
 					</div>
 				</td>

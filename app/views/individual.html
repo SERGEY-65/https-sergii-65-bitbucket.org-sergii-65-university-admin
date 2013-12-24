@@ -1,10 +1,11 @@
 <div class="aui-group">
-	<h4>Email Addresses Allowed into the network <span class="aui-icon aui-icon-small aui-iconfont-help">?</span></h4>
+	<h2>Invited Emails</h2>
+	<p>Emails addresses listed have been invited to this network, but these users have never logged in.</p>
 	<div class="aui-group">
 		<div class="add-block">
 			<form class="aui aui-group" name="entryForm">
-				<input type="email" class="text" name="individualEntry" required ng-model="entry">
-				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.individualEntry.$valid">Add</button>
+				<input type="email" class="text" name="individualEntry" ng-model="entry" required>
+				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.individualEntry.$valid">Invite</button>
 			</form>
 		</div>
 	</div>
@@ -18,7 +19,7 @@
 					ng-click="reverse=!reverse"
 					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
 					<div class="tablesorter-header-inner">
-						<span class="aui-table-header-content">Domain</span>
+						<span class="aui-table-header-content">Email Address</span>
 					</div>
 				</th>
 				<th>
@@ -27,7 +28,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="individual in individuals | orderBy:'id_user':reverse | limit:pagination.offset:pagination.limit">
+			<tr ng-repeat="individual in individuals | filter:entry | orderBy:'id_user':reverse | limit:pagination.offset:pagination.limit">
 				<td><a href="">{{ individual.id_user }}</a></td>
 				<td class="aui-compact-button-column">
 					<div class="inline-actions">

@@ -2,6 +2,9 @@
 
 @import 'aui/aui-all.css';
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 
 .fl { float: left; }
 .fr { float: right; }
@@ -16,6 +19,10 @@
 	display: block;
 	right: 8px;
 	z-index:999;
+}
+
+.uac-user-table .first {
+	width:10px;
 }
 
 .aui-dropdown2-section li:hover a {

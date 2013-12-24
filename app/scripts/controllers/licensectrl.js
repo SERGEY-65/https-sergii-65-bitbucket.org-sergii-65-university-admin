@@ -5,6 +5,8 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
     // PRIVATE FUNCTIONS
     // ===============================================================================
 
+    $scope.everythingLoaded = false;
+
     var loadNetworkData = function () {
 
         if ($scope.network) {
@@ -36,7 +38,7 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
             };
 
             RestNetworkHiddenCourses.query({network:$scope.network.id}, function(data) {
-                console.log(data);
+                //console.log(data);
                 $scope.hiddenVersions = data;
                 $scope.$broadcast("$hiddenVersionsRetrieved");
             }); 
@@ -55,7 +57,7 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
                         product.purchased = true;
                         product.versions = loadVisibleProducts(sen.name_product);
                 });
-                console.log($scope);
+                //console.log($scope);
             });
         }
     });    
@@ -80,6 +82,8 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
                     var availableVersion = version
                         availableVersion.visible = isVisible(key, version.name);
                 });
+                console.log("Finished Loading");
+                $scope.everythingLoaded = true;
                 return data;
             });
 
@@ -108,7 +112,7 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
 
 
     $scope.hideCourse = function(version) {
-        console.log(version);
+        //console.log(version);
         if (version.visible) {
             var removeHiddenVersion = new RestDeleteNetworkHiddenCourses({id_network: $scope.network.id,
                                                                 name_product:version.name_product,
@@ -121,7 +125,7 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
             newHiddenVersion.$save();
         }
 
-        console.log(newHiddenVersion);
+        //console.log(newHiddenVersion);
     }
 
     // ***

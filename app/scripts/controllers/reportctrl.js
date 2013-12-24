@@ -1,5 +1,5 @@
-angular.module('UserAdminApp').controller('UserCtrl',
-    function ($scope, RestNetworkUser, Util, SessionStorage) {
+angular.module('UserAdminApp').controller('ReportCtrl',
+    function ($scope, RestNetworkUser, RestNetworkUserCompletedLessons, Util, SessionStorage) {
 
     // ===============================================================================
     // PRIVATE FUNCTIONS
@@ -21,9 +21,9 @@ angular.module('UserAdminApp').controller('UserCtrl',
             RestNetworkUser.query({ network: $scope.network.id }, function (users) {
                 _.each(users, function (user) {
                     if (!user.selectedp) {
-                        user.activityDate = "Never";
+                        user.progress = [];
                     } else {
-                        user.activityDate = "";
+                        user.progress = loadUserLessons(user);
                     }
                 });
                 $scope.users = users;
@@ -32,6 +32,16 @@ angular.module('UserAdminApp').controller('UserCtrl',
                 paginate();
             });
         }
+    };
+
+    var loadUserLessons = function(user) {
+        var promise = RestNetworkUserCompletedLessons.query(
+            { user: user.id_user }, 
+            function (userLessons) {
+                return userLessons;
+            }
+        );
+        return promise;
     };
 
     var paginate = function () {
@@ -50,46 +60,6 @@ angular.module('UserAdminApp').controller('UserCtrl',
 
     $scope.$on('$NetworkUpdate', loadNetworkData);
     loadNetworkData();
-
-
-    $scope.updateRole = function (user) {
-        if (user.id_user == $scope.currUser) {
-            alert("You cannot change your own user type.");
-            user.role = "admin";
-        } else {
-            user.$update();
-            paginate();
-        }
-    };
-
-    $scope.remove = function (user) {
-        if (user.id_user == $scope.currUser) {
-            alert("You cannot remove yourself.");
-        } else {
-            var r=confirm("Are you sure?");
-            if (r==true)
-            {
-                user.$delete({ user: user.id_user, network: user.id_network });
-                $scope.users = _.without($scope.users, user);
-                paginate();
-            }
-        }
-    };
-
-    $scope.add = function () {
-        var user = new RestNetworkUser({
-            id_network: $scope.network.id,
-            id_user: $scope.entry,
-            role: 'user',
-            selectedp: false
-        });
-        user.$save();
-        $scope.entry = "";
-        $scope.users.push(user);
-        paginate();
-    };
-
-
 
 
 });

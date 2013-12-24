@@ -2,7 +2,7 @@
 	<form action="#" class="aui" >
 		<fieldset class="group">
 			<div class="field-group">
-				<label for="network-name">Network Name:</label>
+				<label for="network-name"><strong>Network Name:</strong></label>
 				<div inline-edit="network.title" on-save="changeFriendlyName(network)" on-cancel="cancelEdit(network.title)">
 				  <input type="text" class="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">
 				  <button ng-click="cancel()" ng-show="editMode">cancel</button>
@@ -13,12 +13,11 @@
 				  </div>
 				</div>
 			</div>
-
 		</fieldset>
 	</form>
 </div>
 
-<!--<table class="aui">
+<table class="aui" ng-show="everythingLoaded">
     <thead>
         <tr>
             <th id="basic-productname">Product Name</th>
@@ -29,13 +28,15 @@
             <th id="basic-action">Action</th>
         </tr>
     </thead>
-    <tbody ng-repeat="license in licenses | orderBy:id">
+    <tbody ng-repeat="license in licenses | orderBy:id" >
         <tr>
             <td headers="basic-productname">
             	<b>{{license.productName}}</b>
             </td>
-            <td headers="basic-licensesize">
+            <td headers="basic-licensesize" ng-show="license.purchased">
             	{{ license.sen.license_type }} <span ng-show="license.purchased">users</span>
+            </td>
+            <td headers="basic-licensesize"  colspan=4 ng-show="!license.purchased">
 				<div class="aui-message hint" ng-show="!license.purchased">
 				    <p class="title">
 				        <span class="aui-icon icon-hint "></span>
@@ -44,13 +45,13 @@
 				    <p>You haven't purchased University for {{ license.productName }}</p>
 				</div>
             </td>
-            <td headers="basic-sen">
+            <td headers="basic-sen" ng-show="license.purchased">
             	{{ license.sen.sen }}
             </td>
-            <td headers="basic-expiration">
+            <td headers="basic-expiration" ng-show="license.purchased">
             	{{ license.sen.expiration }}
             </td>
-            <td headers="basic-versions">
+            <td headers="basic-versions" ng-show="license.purchased">
 					<div ng-repeat="productVersion in license.versions">
 						<div class="checkbox">
 							<input type="checkbox" ng-model="productVersion.visible" class="checkbox" ng-change="hideCourse(productVersion)">
@@ -64,52 +65,4 @@
             </td>
         </tr>
     </tbody>
-</table>-->
-
-<div class="aui-group">
-	<div class="aui-item" ng-repeat="license in licenses | orderBy:id">
-		<div class="course-container">
-			<h2 ng-bind-html-unsafe="license.productName"></h2>
-			<form action="" class="aui" ng-show="license.purchased">
-				<fieldset class="group">
-					<legend><span>Visible Versions:</span></legend>
-					<div ng-repeat="productVersion in license.versions">
-						<div class="checkbox">
-							<input type="checkbox" ng-model="productVersion.visible" class="checkbox" ng-change="hideCourse(productVersion)">
-							<label for="">{{productVersion.title}}</label>
-						</div>
-					</div>
-				</fieldset>
-				<fieldset>
-					<div class="field-group">
-						<label for="">License Size:</label>
-						<input type="text" class="text non-editable" value="{{ license.sen.license_type }} users">
-					</div>
-					<div class="field-group">
-						<label for="">SEN:</label>
-						<input type="text" class="text non-editable" value="{{ license.sen.sen }}">
-					</div>
-					<div class="field-group">
-						<label for="">Expiration Date:</label>
-						<input type="text" class="text non-editable" value="{{ license.sen.expiration }}">
-					</div>
-				</fieldset>
-			</form>
-			<div class="aui-message hint" ng-show="!license.purchased">
-			    <p class="title">
-			        <span class="aui-icon icon-hint "></span>
-			        <strong>Info</strong>
-			    </p>
-			    <p>You haven't purchased University for {{ license.productName }}</p>
-			</div>
-			<form class="aui">
-				<fieldset>
-					<div class="field-group">
-						<a class="aui-button" ng-show="license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Renew/Upgrade</a>
-						<a class="aui-button" ng-show="!license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Buy</a>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-	</div>
-</div>
+</table>
