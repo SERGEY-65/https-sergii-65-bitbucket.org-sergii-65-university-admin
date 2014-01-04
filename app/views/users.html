@@ -4,8 +4,10 @@
 	<div class="aui-group">
 		<div class="add-block">
 			<form action="" class="aui" name="entryForm">
-				<input type="email" class="text" ng-model="entry" required name="userEntry">
-				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.userEntry.$valid">Invite</button>
+				<input type="text" class="text" ng-model="entry" required name="userEntry">
+				<input type="email" class="text" ng-model="entry" required name="userEmailEntry" style="display:none;">
+
+				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.userEmailEntry.$valid || exists()">Invite</button>
 			</form>
 		</div>
 	</div>
@@ -33,13 +35,6 @@
 						<span class="aui-table-header-content">Role</span>
 					</div>
 				</th>
-				<th class="tablesorter-header"
-					ng-click="reverse=!reverse;orderField='activityDate'"
-					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
-					<div class="tablesorter-header-inner">
-						<span class="aui-table-header-content">Last Login</span>
-					</div>
-				</th>
 				<th class="tablesorter-header">
 					<div class="tablesorter-header-inner">
 						<span class="aui-table-header-content">Actions</span>
@@ -61,7 +56,6 @@
                         </select>
                     </form>
 				</td>
-				<td>{{ user.activityDate }}</td>
 				<td class="aui-compact-button-column">
 					<div class="inline-actions">
 							<button class="aui-button aui-button-compact" ng-click="remove(user)">

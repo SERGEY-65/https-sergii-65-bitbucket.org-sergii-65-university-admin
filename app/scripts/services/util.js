@@ -33,18 +33,18 @@ angular.module('UserAdminApp')
 
 			var page_params = $location.search(),
 				defaults = {
-					max_items_per_page: 10,
+					max_items_per_page: 20,
 					num_pages: 1,
 					next: null,
 					prev: null,
 					current_page: 1,
 					first: null,
 					last: null,
-					limit: 10,
+					limit: 20,
 					offset: 0,
 					items: [],
 					beginning_item: 1,
-					last_item: 10,
+					last_item: 20,
 					page_numbers: function () {
 						return range (this.num_pages, 1);
 					}
@@ -52,7 +52,7 @@ angular.module('UserAdminApp')
 
 			// Get page number from querystring. If it is not in the querystring, assume page 1
 			if (_.has(page_params, 'page')) {
-				defaults.current_page = parseInt(page_params.page, 10);
+				defaults.current_page = parseInt(page_params.page, 20);
 			} else {
 				$location.search('page', 1);
 			}

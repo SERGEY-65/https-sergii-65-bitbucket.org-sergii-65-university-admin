@@ -20,11 +20,11 @@ angular.module('UserAdminApp').controller('UserCtrl',
         if ($scope.network) {
             RestNetworkUser.query({ network: $scope.network.id }, function (users) {
                 _.each(users, function (user) {
-                    if (!user.selectedp) {
-                        user.activityDate = "Never";
-                    } else {
-                        user.activityDate = "";
-                    }
+                    //if (!user.selectedp) {
+                    //    user.activityDate = "Never";
+                    //} else {
+                    //    user.activityDate = "";
+                    //}
                 });
                 $scope.users = users;
 
@@ -76,6 +76,16 @@ angular.module('UserAdminApp').controller('UserCtrl',
         }
     };
 
+    $scope.exists = function() {
+        console.log($scope.entry);
+        for (var i in $scope.users) {
+            if ($scope.users[i].id_user == $scope.entry) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     $scope.add = function () {
         var user = new RestNetworkUser({
             id_network: $scope.network.id,
@@ -83,6 +93,12 @@ angular.module('UserAdminApp').controller('UserCtrl',
             role: 'user',
             selectedp: false
         });
+        for (var i in $scope.users) {
+            if ($scope.users[i].id_user == $scope.entry) {
+                return false;
+            }
+        }
+
         user.$save();
         $scope.entry = "";
         $scope.users.push(user);

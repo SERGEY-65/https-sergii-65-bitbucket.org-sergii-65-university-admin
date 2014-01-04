@@ -5,7 +5,7 @@
 		<div class="add-block">
 			<form class="aui aui-group" name="entryForm">
 				<input type="text" class="text" name="domainEntry" required ng-model="entry">
-				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.domainEntry.$valid">Add</button>
+				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.domainEntry.$valid || exists()">Add</button>
 			</form>
 		</div>
 	</div>

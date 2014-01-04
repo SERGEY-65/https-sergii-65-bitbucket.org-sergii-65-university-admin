@@ -58,6 +58,16 @@ angular.module('UserAdminApp').controller('IndividualCtrl',
         }  
     };
 
+    $scope.exists = function() {
+        for (var i in $scope.individuals) {
+            if ($scope.individuals[i].id_user == $scope.entry) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     $scope.add = function () {
         var individual = new RestNetworkUser({
             id_network: $scope.network.id,
@@ -65,6 +75,13 @@ angular.module('UserAdminApp').controller('IndividualCtrl',
             role: 'user',
             selectedp: false
         });
+
+        for (var i in $scope.individuals) {
+            if ($scope.individuals[i].id_user == $scope.entry) {
+                return false;
+            }
+        }
+
         individual.$save();
         $scope.entry = "";
         $scope.individuals.push(individual);

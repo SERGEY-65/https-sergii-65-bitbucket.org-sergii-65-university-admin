@@ -42,11 +42,28 @@ angular.module('UserAdminApp').controller('DomainCtrl',
         }
     };
 
+    $scope.exists = function() {
+        for (var i in $scope.domains) {
+            if ($scope.domains[i].id_domain == $scope.entry) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     $scope.add = function () {
         var domain = new RestDomain({
             id_network: $scope.network.id,
             id_domain: $scope.entry
         });
+
+        for (var i in $scope.domains) {
+            if ($scope.domains[i].id_domain == $scope.entry) {
+                return false;
+            }
+        }
+
         $scope.entry="";
         domain.$save();
         $scope.domains.push(domain);
