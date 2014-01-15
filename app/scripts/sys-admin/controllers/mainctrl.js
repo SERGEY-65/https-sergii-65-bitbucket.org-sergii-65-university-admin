@@ -1,5 +1,5 @@
 angular.module('SysAdminApp').controller('MainCtrl',
-	function ($scope, $location, $q, $timeout, RestAdminNetworks, RestNetwork, RestCurrentUser, CookieStorage) {
+	function ($scope, $location, $q, $timeout, RestCurrentUser, CookieStorage) {
 
 
 	/*
@@ -24,50 +24,23 @@ angular.module('SysAdminApp').controller('MainCtrl',
      */
 	$scope.networks = [];
 	$scope.$on('$userIdRetrieved', function() {
-		RestAdminNetworks.query({ user: userEmail }, function (networks) {
 
-			// Hacky promise workaround until official Angular1.2 upgrade of
-			// $resource is released to return promises
-			var promiseWrapper = function (network) {
-				var deferred = $q.defer();
-				RestNetwork.get({ id: network.id_network }, function (data) {
-					deferred.resolve(data);
-				});
-				return deferred.promise;
-			};
-
-			var promises = _.map(networks, function (network) {
-				return promiseWrapper(network);
-			});
-
-			$q.all(promises).then(function (list) {
-				$scope.networks = list;
-				$scope.network = $scope.networks[0];
-				$scope.$broadcast('$NetworkUpdate');
-			});
-		});
 	});
 
-
-    $scope.changeFriendlyName = function(network) {
-        console.log(network);
-        network.$save();
-        console.log(network);
-    }
-
-
-	$scope.updateNetwork = function () {
-		$scope.$broadcast('$NetworkUpdate');
-	}
 
 	/*
 	 * Leftmost Navigation Menu links
 	 */
 	$scope.pages = [
 		{
-			name: 'Migrate Company',
-			path: '#/migrate',
+			name: 'Database Stats',
+			path: '#/stats',
 			selected: true
+//		},
+//		{
+//			name: 'Migrate Company',
+//			path: '#/migrate',
+//			selected: false
 		}
 	];
 

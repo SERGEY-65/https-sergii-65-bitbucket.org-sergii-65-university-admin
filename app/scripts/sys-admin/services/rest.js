@@ -27,115 +27,6 @@ angular.module('SysAdminApp')
 
 
 /*
- * NETWORKS FOR LOGGED IN USER
- * pass in user email - from __ATL_USER cookie
- */
-.factory('RestAdminNetworks', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/networks-admins/:user',
-		//RestBaseUrl + '/users/:user',
-		{
-			user: '@user',
-			key: new Date().getTime()
-		}
-	);
-})
-
-
-/*
- * NETWORK DETAILS
- */
-.factory('RestNetwork', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/networks/:id',
-		{
-			id: '@id'
-		}
-	);
-})
-
-
-/*
- * ADMIN USERS
- */
-// .factory('RestAdmin', [ '$resource', 'RestBaseUrl',
-// 	function ($resource, RestBaseUrl) {
-
-// 	return $resource(
-// 		RestBaseUrl + '/users/:user',
-// 		{
-// 			user: '@user'
-// 		}
-// 	);
-// }])
-
-
-/*
- * DOMAINS BY NETWORK
- */
-.factory('RestNetworkDomain', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/networks-domains-by-network/:network/',
-		{
-			network: '@network'
-		}
-	);
-})
-
-/*
- * DOMAINS
- *
- * GET all
- * var allDomains = Domain.query({ network: 2 }); // network id
- *
- * POST new
- * var domain = new Domain({ network: 'macnet', id: '123', url: 'foobar' });
- *     domain.$save();
- *
- * GET by ID
- * var domain123 = Domain.query({ network: 'macnet', id: 123 });
- *     domain.url = 'somethingnew';
- *     domain.$save();
- */
-.factory('RestDomain', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/networks-domains/:network/:id/',
-		{
-			id: '@id',
-			network: '@network'
-		}
-	);
-})
-
-/*
- * NETWORK USERS
- */
-.factory('RestNetworkUser', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/networks-users/:network/:user',
-		{
-			user: '@user',
-			network: '@network'
-		},
-		{
-			update: {method: 'PUT'}
-		}
-	);
-})
-
-.factory('RestNetworkUserCompletedLessons', function ($resource, RestBaseUrl) {
-	return $resource(
-		RestBaseUrl + '/user-completed-lessons/:user',
-		{
-			user: '@user'
-		}
-	);
-})
-
-
-/*
  * USER
  */
 .factory('RestCurrentUser', function ($resource, RestBaseUrl) {
@@ -147,74 +38,12 @@ angular.module('SysAdminApp')
 })
 
 /*
- * USERS
+ * Super Admin Table Stats
  */
-.factory('RestUser', function ($resource, RestBaseUrl) {
+.factory('RestTableStats', function ($resource, RestBaseUrl) {
 	return $resource(
-		RestBaseUrl + '/users/:user',
+		RestBaseUrl + '/table-statistics',
 		{
-			user: '@user'
-		}
-	);
-})
-
-
-/*
- * SENS FOR A GIVEN NETWORK
- */
-.factory('RestNetworkSens', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/network-sens/:network/',
-		{
-			network: '@network'
-		}
-	);
-})
-
-
-/*
- * COURSES
- */
-.factory('RestCourses', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/product-courses/:product',
-		{
-			product: '@product'
-		}
-	);
-})
-
-.factory('RestNetworkHiddenCourses', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/networks-hidden-courses-by-id-network/:network/',
-		{
-			network: '@network'
-		}
-	);
-})
-
-.factory('RestDeleteNetworkHiddenCourses', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/networks-hidden-courses-by-id-network/:network/:course/:version',
-		{
-			network: '@id_network',
-			course: '@name_product',
-			version: '@name_course'
-		}
-	);
-})
-
-
-.factory('RestNetworksCoursesByNetwork', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/selected-networks-courses-by-network/:network',
-		{
-			network: '@network'
 		}
 	);
 });

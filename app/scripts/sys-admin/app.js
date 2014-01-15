@@ -18,12 +18,16 @@ angular.module('SysAdminApp', [ 'ngResource', 'Storage' ])
 .config(function ($routeProvider, $httpProvider) {
 
     $routeProvider
-    .when('/migrate', {
-        templateUrl: baseUrl + 'docroot/uac-admin/app/views/sys-admin/migrate.html',
-        controller: 'MigrateCtrl'
+    .when('/stats', {
+        templateUrl: baseUrl + 'docroot/uac-admin/app/views/sys-admin/stats.html',
+        controller: 'StatsCtrl'
     })
+//    .when('/migrate', {
+//        templateUrl: baseUrl + 'docroot/uac-admin/app/views/sys-admin/migrate.html',
+//        controller: 'MigrateCtrl'
+//    })
     .otherwise({
-        redirectTo: '/migrate'
+        redirectTo: '/stats'
     });
 
     // $locationProvider.html5Mode(true);

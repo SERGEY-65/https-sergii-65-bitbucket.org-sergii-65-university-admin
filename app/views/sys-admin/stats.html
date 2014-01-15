@@ -1,0 +1,33 @@
+<div class="aui-group">
+	<h2>Table Statistics</h2>
+	<p>This console displays the number of records in each table in the database..</p>
+
+</div>
+<div class="aui-group">
+	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default">
+		<thead>
+			<tr class="tablesorter-headerRow">
+				<th class="tablesorter-header"
+					ng-click="reverse=!reverse;orderField='relname'"
+					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+					<div class="tablesorter-header-inner">
+						<span class="aui-table-header-content">Table</span>
+					</div>
+				</th>
+				<th class="tablesorter-header"
+					ng-click="reverse=!reverse;orderField='reltuples'"
+					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+					<div class="tablesorter-header-inner">
+						<span class="aui-table-header-content">Row Count</span>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="table in stats | filter:entry | orderBy:orderField:reverse ">
+				<td>{{ table.relname }}</td>
+				<td>{{ table.reltuples }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
