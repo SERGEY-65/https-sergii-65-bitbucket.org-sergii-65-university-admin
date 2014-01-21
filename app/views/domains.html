@@ -28,7 +28,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="domain in domains | orderBy:'id_domain':reverse">
+			<tr ng-repeat="domain in domains | orderBy:'id_domain':reverse | limit:pagination.offset:pagination.limit">
 				<td><a href="">{{ domain.id_domain }}</a></td>
 				<td class="aui-compact-button-column">
 					<div class="inline-actions">
