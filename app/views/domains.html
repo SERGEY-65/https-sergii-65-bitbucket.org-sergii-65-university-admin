@@ -16,7 +16,7 @@
 		<thead>
 			<tr class="tablesorter-headerRow">
 				<th class="tablesorter-header"
-					ng-click="reverse=!reverse"
+					ng-click="reverse=!reverse;"
 					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
 					<div class="tablesorter-header-inner">
 						<span class="aui-table-header-content">Domain</span>
@@ -28,7 +28,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="domain in domains | orderBy:'url':reverse | limit:pagination.offset:pagination.limit">
+			<tr ng-repeat="domain in domains | orderBy:'id_domain':reverse">
 				<td><a href="">{{ domain.id_domain }}</a></td>
 				<td class="aui-compact-button-column">
 					<div class="inline-actions">

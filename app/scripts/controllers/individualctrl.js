@@ -67,7 +67,7 @@ angular.module('UserAdminApp').controller('IndividualCtrl',
         return false;
     }
 
-
+//send email to the person that was added - UNI-372
     $scope.add = function () {
         var individual = new RestNetworkUser({
             id_network: $scope.network.id,
