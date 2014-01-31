@@ -34,6 +34,7 @@
             	<b>{{license.productName}}</b>
             </td>
             <td headers="basic-licensesize" ng-show="license.purchased">
+            <!-- //if this  is zero then show unlimted text-->
             	{{ license.sen.license_type }} <span ng-show="license.purchased">users</span>
             </td>
             <td headers="basic-licensesize"  colspan=4 ng-show="!license.purchased">

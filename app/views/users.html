@@ -12,7 +12,9 @@
 		</div>
 	</div>
 </div>
+
 <div class="aui-group">
+
 	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default uac-user-table">
 		<thead>
 			<tr class="tablesorter-headerRow">
@@ -71,6 +73,20 @@
 	<div class="aui-item" ng-show="users.length > 0">
 		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}</p>
 	</div>
+	
+<!-- <items-to-show max-items="5000"></items-to-show> -->
+
+	<div ng-show="users.length > 0">
+		<p>View 
+		<ul>
+			<li ng-show="users.length > 10" ng-click="changeMaxItems(10)">10</li> 
+			<li ng-show="users.length > 25" ng-click="changeMaxItems(25)">25</li>,
+			<li ng-show="users.length > 100" ng-click="changeMaxItems(100)">100 or</li> 
+			<li ng-show="users.length > 500" ng-click="changeMaxItems(500)">500 records per page</li>
+		</ul>
+		</p>
+	</div>
+
 	<div class="aui-item" ng-show="pagination.num_pages > 1">
 		<ol class="aui-nav aui-nav-pagination fr">
 			<li ng-show="pagination.first" class="aui-nav-first"><a href="#/users?page=1">First</a></li>

@@ -36,7 +36,8 @@ angular.module('UserAdminApp').controller('UserCtrl',
 
     var paginate = function () {
         $scope.pagination = Util.paginate({
-            items: $scope.users
+            items: $scope.users,
+            max_items_per_page: $scope.itemsPerPage
         });
     };
 
@@ -47,6 +48,7 @@ angular.module('UserAdminApp').controller('UserCtrl',
     $scope.reverse = false;
     $scope.orderField = 'id_user';
     $scope.users = [];
+    $scope.itemsPerPage = 5;
 
     $scope.$on('$NetworkUpdate', loadNetworkData);
     loadNetworkData();
@@ -105,7 +107,40 @@ angular.module('UserAdminApp').controller('UserCtrl',
         paginate();
     };
 
+    $scope.changeMaxItems = function(num) {
+        $scope.itemsPerPage = num;
+        paginate();
+    }
+
+})
+.directive('itemsToShow', function() {
+    return {
+      restrict: 'E',
+      scope: {
+        numItems: '=max-items'
+      },
+      template: 'Items = {{scope.numItems}}'
 
 
-
+    };
+})
+.directive('thing', function ($log) {
+    // allowed event listeners
+    return {
+        restrict: 'E',
+        template:   '{{maxItems}}',
+        scope: {
+            maxItems: '@maxItems'
+        }
+    };
 });
+
+
+
+
+
+
+
+
+
+

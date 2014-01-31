@@ -55,9 +55,14 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
                     var product = findProduct(sen.name_product);
                         product.sen = sen;
                         product.purchased = true;
-                        product.versions = loadVisibleProducts(sen.name_product);
+                        product.versions = loadVisibleProducts(sen.name_product);                        
+                        if (sen.license_type == 0) {
+                            sen.license_type = "Unlimited"
+                        }
                 });
+
                 //console.log($scope);
+
             });
         }
     });    
