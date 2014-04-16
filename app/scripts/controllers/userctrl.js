@@ -1,45 +1,60 @@
 angular.module('UserAdminApp').controller('UserCtrl',
-    function ($scope, RestNetworkUser, Util, SessionStorage) {
+    function ($scope, RestNetworkUser, Util, SessionStorage, $location, filterFilter) {
 
     // ===============================================================================
     // PRIVATE FUNCTIONS
     // ===============================================================================
 
-    //var loadStoredData = function () {
-    //    var storedData;
-    //    if ($scope.network) {
-    //        storedData = SessionStorage.get('network.' + $scope.network.id + '.users');
-    //        if (storedData) {
-    //            $scope.users = storedData;
-    //            paginate();
-    //        }
-    //    }
-    //};
+
 
     var loadNetworkData = function () {
         if ($scope.network) {
             RestNetworkUser.query({ network: $scope.network.id }, function (users) {
-                _.each(users, function (user) {
-                    //if (!user.selectedp) {
-                    //    user.activityDate = "Never";
-                    //} else {
-                    //    user.activityDate = "";
-                    //}
-                });
-                $scope.users = users;
 
-                SessionStorage.add('network.' + $scope.network.id + '.users', $scope.users);
+                $scope.users = users;
+                $scope.networkUsers = _.where($scope.users, {selectedp: true});
+                $scope.totalItems = $scope.networkUsers.length;
+
+                SessionStorage.add('network.' + $scope.network.id + '.users', $scope.networkUsers);
                 paginate();
             });
         }
     };
 
-    var paginate = function () {
+    var paginate = function (page) {
+        if (!page) {
+            page = 1;
+        }
+
+        if ($scope.paginateFiltered) {
+            var records = $scope.filtered;
+            $scope.totalItems = $scope.filtered.length;            
+        } else {
+            var records = $scope.networkUsers;
+        };
+        
+
         $scope.pagination = Util.paginate({
-            items: $scope.users,
-            max_items_per_page: $scope.itemsPerPage
+            items: records,
+            max_items_per_page: $scope.itemsPerPage,
+            current_page: page
         });
-    };
+
+    };        
+        
+    $scope.changedPage = function(page) {            
+        paginate(page);
+    }
+
+
+
+    $scope.$watch('entry', function(term) {  
+        $scope.filtered = filterFilter($scope.networkUsers, term);
+        if (term !== undefined) {
+            $scope.paginateFiltered = true;
+        }
+        paginate(1);
+    });
 
     // ===============================================================================
     // SCOPE VALUES
@@ -48,7 +63,11 @@ angular.module('UserAdminApp').controller('UserCtrl',
     $scope.reverse = false;
     $scope.orderField = 'id_user';
     $scope.users = [];
-    $scope.itemsPerPage = 5;
+    $scope.networkUsers = [];
+    $scope.itemsPerPage = 10;
+    $scope.currentPage = 1;
+    $scope.maxSize = 5;
+    $scope.paginateFiltered = false;
 
     $scope.$on('$NetworkUpdate', loadNetworkData);
     loadNetworkData();
@@ -79,7 +98,6 @@ angular.module('UserAdminApp').controller('UserCtrl',
     };
 
     $scope.exists = function() {
-        console.log($scope.entry);
         for (var i in $scope.users) {
             if ($scope.users[i].id_user == $scope.entry) {
                 return true;

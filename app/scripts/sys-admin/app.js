@@ -9,7 +9,7 @@ if (_.contains([ 'university.atlassian.com' ], host)) {
 /*
  * Module definition and dependencies
  */
-angular.module('SysAdminApp', [ 'ngResource', 'Storage' ])
+angular.module('SysAdminApp', [ 'ngResource', 'Storage'])
 
 
 /*

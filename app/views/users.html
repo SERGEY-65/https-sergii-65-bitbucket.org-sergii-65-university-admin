@@ -6,7 +6,6 @@
 			<form action="" class="aui" name="entryForm">
 				<input type="text" class="text" ng-model="entry" required name="userEntry">
 				<input type="email" class="text" ng-model="entry" required name="userEmailEntry" style="display:none;">
-
 				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.userEmailEntry.$valid || exists()">Invite</button>
 			</form>
 		</div>
@@ -14,6 +13,7 @@
 </div>
 
 <div class="aui-group">
+    
 
 	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default uac-user-table">
 		<thead>
@@ -25,7 +25,7 @@
 				</th>-->
 				<th class="tablesorter-header"
 					ng-click="reverse=!reverse;orderField='id_user'"
-					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}" width="75%">
 					<div class="tablesorter-header-inner">
 						<span class="aui-table-header-content">Name</span>
 					</div>
@@ -45,7 +45,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in users | filter:entry | orderBy:orderField:reverse | limit:pagination.offset:pagination.limit">
+			<tr ng-repeat="user in networkUsers | filter:entry | orderBy:orderField:reverse | startFrom: pagination.beginning_item - 1 |limitTo:itemsPerPage">
 				<!--<td class="first">
 					<input type="checkbox" class="checkbox" ng-model="user.checked">
 				</td>-->
@@ -69,34 +69,25 @@
 		</tbody>
 	</table>
 </div>
+
+<!-- 	<div class="aui-item" ng-show="filtered.length == 0">
+		<p>No users found. You may invite this user now.</p>
+	</div>
+ -->	
 <div class="aui-group aui-group-split">
-	<div class="aui-item" ng-show="users.length > 0">
+	<div class="aui-item" ng-show="filtered.length > 0">
 		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}</p>
 	</div>
-	
-<!-- <items-to-show max-items="5000"></items-to-show> -->
 
-<!-- 	<div ng-show="users.length > 0">
-		<p>View 
-		<ul>
-			<li ng-show="users.length > 10" ng-click="changeMaxItems(10)">10</li> 
-			<li ng-show="users.length > 25" ng-click="changeMaxItems(25)">25</li>,
-			<li ng-show="users.length > 100" ng-click="changeMaxItems(100)">100 or</li> 
-			<li ng-show="users.length > 500" ng-click="changeMaxItems(500)">500 records per page</li>
-		</ul>
-		</p>
-	</div> -->
+
+
 
 	<div class="aui-item" ng-show="pagination.num_pages > 1">
-		<ol class="aui-nav aui-nav-pagination fr">
-			<li ng-show="pagination.first" class="aui-nav-first"><a href="#/users?page=1">First</a></li>
-			<li ng-show="pagination.prev" class="aui-nav-previous"><a ng-href="#/users?page={{ pagination.prev }}">Previous</a></li>
-			<li ng-repeat="i in pagination.page_numbers()" ng-class="{ 'aui-nav-selected': i == pagination.current_page }">
-				<a ng-show="i != pagination.current_page" ng-href="#/users?page={{ i }}">{{ i }}</a>
-				<span ng-show="i == pagination.current_page">{{ i }}</span>
-			</li>
-			<li ng-show="pagination.next" class="aui-nav-next"><a ng-href="#/users?page={{ pagination.next }}">Next</a></li>
-			<li ng-show="pagination.last" class="aui-nav-last"><a ng-href="#/users?page={{ pagination.last }}">Last</a></li>
-		</ol>
+
+
+		<pagination total-items="totalItems" page="pagination.current_page" items-per-page="itemsPerPage" max-size="maxSize" rotate="false" on-select-page="changedPage(page)"></pagination>
+
+
+		
 	</div>
 </div>
