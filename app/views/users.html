@@ -70,10 +70,11 @@
 	</table>
 </div>
 
-<!-- 	<div class="aui-item" ng-show="filtered.length == 0">
-		<p>No users found. You may invite this user now.</p>
+	<div class="aui-item" ng-show="totalItems == 0">
+		<br>
+		<p>No users found.</p>
 	</div>
- -->	
+
 <div class="aui-group aui-group-split">
 	<div class="aui-item" ng-show="filtered.length > 0">
 		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}</p>

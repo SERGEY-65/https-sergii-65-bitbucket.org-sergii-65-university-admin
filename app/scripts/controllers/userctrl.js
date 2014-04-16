@@ -39,7 +39,7 @@ angular.module('UserAdminApp').controller('UserCtrl',
             max_items_per_page: $scope.itemsPerPage,
             current_page: page
         });
-
+        
     };        
         
     $scope.changedPage = function(page) {            
