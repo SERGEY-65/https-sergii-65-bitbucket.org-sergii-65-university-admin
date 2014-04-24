@@ -4,7 +4,6 @@
  */
 angular.module('UserAdminApp')
 
-
 /*
  * Base domain url for all RESTful resources. Is aware of the environment
  * it is running in, and will return the appropriate base url for that env
@@ -47,13 +46,17 @@ angular.module('UserAdminApp')
  * NETWORK DETAILS
  */
 .factory('RestNetwork', function ($resource, RestBaseUrl) {
-
-	return $resource(
-		RestBaseUrl + '/networks/:id',
-		{
-			id: '@id'
-		}
-	);
+    return $resource(
+	RestBaseUrl + '/networks/:id',
+//	{ id: '@id' }
+	{}
+	,
+	{
+	    'query': {method: 'GET', params: {id: '@id'}},
+	    'update': {method: 'PUT', params: {id: ''}}
+	}
+	
+    );
 })
 
 

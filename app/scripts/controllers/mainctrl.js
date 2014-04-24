@@ -51,7 +51,7 @@ angular.module('UserAdminApp').controller('MainCtrl',
 
     $scope.changeFriendlyName = function(network) {
         console.log(network);
-        network.$save();
+        network.$update();
         console.log(network);
     }
 
