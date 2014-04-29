@@ -107,7 +107,8 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
 
     var isVisible = function(productKey, versionKey) {
         for (i=0; i < $scope.hiddenVersions.length; i++){
-            if (($scope.hiddenVersions[i].name_product == productKey) && ($scope.hiddenVersions[i].name_course == versionKey)) {
+            if (($scope.hiddenVersions[i].name_product == productKey) && 
+		($scope.hiddenVersions[i].name == versionKey)) {
                 return false
             }
         }
