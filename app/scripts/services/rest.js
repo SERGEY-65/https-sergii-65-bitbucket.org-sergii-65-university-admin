@@ -130,9 +130,9 @@ angular.module('UserAdminApp')
 
 .factory('RestNetworkUserCompletedLessons', function ($resource, RestBaseUrl) {
 	return $resource(
-		RestBaseUrl + '/user-completed-lessons/:user',
+		RestBaseUrl + '/networks-lessons/:network',
 		{
-			user: '@user'
+			network: '@network'
 		}
 	);
 })

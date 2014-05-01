@@ -23,7 +23,7 @@ angular.module('UserAdminApp').controller('ReportCtrl',
                     if (!user.selectedp) {
                         user.progress = [];
                     } else {
-                        user.progress = loadUserLessons(user);
+                        user.progress = loadUserLessons($scope.network.id);
                     }
                 });
                 $scope.users = users;
@@ -34,9 +34,11 @@ angular.module('UserAdminApp').controller('ReportCtrl',
         }
     };
 
-    var loadUserLessons = function(user) {
+    var loadUserLessons = function(network) {
+	console.log("$scope.network.id: " + network);
+
         var promise = RestNetworkUserCompletedLessons.query(
-            { user: user.id_user }, 
+            { network: network.id_network }, 
             function (userLessons) {
                 return userLessons;
             }
@@ -60,6 +62,4 @@ angular.module('UserAdminApp').controller('ReportCtrl',
 
     $scope.$on('$NetworkUpdate', loadNetworkData);
     loadNetworkData();
-
-
 });
