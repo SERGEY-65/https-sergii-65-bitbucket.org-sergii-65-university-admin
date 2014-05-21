@@ -64,6 +64,7 @@ angular.module('UserAdminApp').controller('UserCtrl',
     $scope.orderField = 'id_user';
     $scope.users = [];
     $scope.networkUsers = [];
+    
     $scope.itemsPerPage = 10;
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -152,13 +153,3 @@ angular.module('UserAdminApp').controller('UserCtrl',
         }
     };
 });
-
-
-
-
-
-
-
-
-
-

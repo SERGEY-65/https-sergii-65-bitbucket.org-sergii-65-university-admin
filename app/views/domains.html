@@ -1,10 +1,11 @@
 <div class="aui-group">
 	<h2>Domain Access</h2>
-	<p>Emails addresses on the listed domains will be allowed in this network.</p>
+	<p>Emails addresses on the listed domains will be allowed in this network.  Free email domains like 'gmail.com' are not allowed as all users with those domains would be allowed in your network.</p>
 	<div class="aui-group">
 		<div class="add-block">
 			<form class="aui aui-group" name="entryForm">
-				<input type="text" class="text" name="domainEntry" required ng-model="entry">
+				<input type="text" class="text" name="individualEntry" ng-model="entry" required lowercase>
+				<input type="text" class="text" name="domainEntry" required ng-model="entry" ng-pattern="/^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$/" style="display:none;">
 				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.domainEntry.$valid || exists()">Add</button>
 			</form>
 		</div>
@@ -28,7 +29,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="domain in domains | orderBy:'id_domain':reverse | limit:pagination.offset:pagination.limit">
+			<tr ng-repeat="domain in domains | filter:entry | orderBy:'id_domain':reverse | limit:pagination.offset:pagination.limit">
 				<td><a href="">{{ domain.id_domain }}</a></td>
 				<td class="aui-compact-button-column">
 					<div class="inline-actions">
@@ -41,20 +42,25 @@
 		</tbody>
 	</table>
 </div>
+<div class="aui-item" ng-show="totalItems == 0">
+	<br>
+	<p>No domains found.</p>
+</div>
+
 <div class="aui-group aui-group-split">
-	<div class="aui-item" ng-show="domains.length > 0">
-		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}</p>
+	<div class="aui-item" ng-show="totalItems != 0">
+		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}
+            <label for="pagesize">Results per page:</label>
+            <select class="select" id="pagesize" name="pagesize" ng-model="itemsPerPage" ng-change="changeMaxItems(itemsPerPage)">
+                <option value=10>10</option>
+                <option value=20>20</option>
+                <option value=50>50</option>
+                <option value=100>100</option>
+                <option value="{{pagination.items.length}}">All</option>
+            </select>
+		</p>
 	</div>
 	<div class="aui-item" ng-show="pagination.num_pages > 1">
-		<ol class="aui-nav aui-nav-pagination fr">
-			<li ng-show="pagination.first" class="aui-nav-first"><a href="#/domains?page=1">First</a></li>
-			<li ng-show="pagination.prev" class="aui-nav-previous"><a ng-href="#/domains?page={{ pagination.prev }}">Previous</a></li>
-			<li ng-repeat="i in pagination.page_numbers()" ng-class="{ 'aui-nav-selected': i == pagination.current_page }">
-				<a ng-show="i != pagination.current_page" ng-href="#/domains?page={{ i }}">{{ i }}</a>
-				<span ng-show="i == pagination.current_page">{{ i }}</span>
-			</li>
-			<li ng-show="pagination.next" class="aui-nav-next"><a ng-href="#/domains?page={{ pagination.next }}">Next</a></li>
-			<li ng-show="pagination.last" class="aui-nav-last"><a ng-href="#/domains?page={{ pagination.last }}">Last</a></li>
-		</ol>
+		<pagination total-items="totalItems" page="pagination.current_page" items-per-page="itemsPerPage" max-size="maxSize" rotate="false" on-select-page="changedPage(page)"></pagination>
 	</div>
 </div>

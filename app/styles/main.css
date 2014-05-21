@@ -77,3 +77,7 @@ form.aui .text.non-editable {
 form.aui fieldset {
 	margin: 1em 0;
 }
+
+.large-spinner {
+	margin-top:80px;
+}

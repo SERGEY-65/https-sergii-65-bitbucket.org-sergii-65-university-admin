@@ -1,5 +1,5 @@
 angular.module('UserAdminApp').controller('DomainCtrl',
-	function ($scope, RestDomain, Util) {
+	function ($scope, RestDomain, Util, filterFilter) {
 
     // ===============================================================================
     // PRIVATE FUNCTIONS
@@ -9,18 +9,44 @@ angular.module('UserAdminApp').controller('DomainCtrl',
         if ($scope.network) {
 			RestDomain.query({ network: $scope.network.id }, function (domains) {
 				$scope.domains = domains;
+                $scope.totalItems = $scope.domains.length;
 				paginate();
 			});
         }
     };
 
-    var paginate = function () {
+    var paginate = function (page) {
+        if (!page) {
+            page = 1;
+        }
+
+        if ($scope.paginateFiltered) {
+            var records = $scope.filtered;
+            $scope.totalItems = $scope.filtered.length;            
+        } else {
+            var records = $scope.domains;
+        };
+        
+
         $scope.pagination = Util.paginate({
-            items: $scope.domains
+            items: records,
+            max_items_per_page: $scope.itemsPerPage,
+            current_page: page
         });
-    };
+        
+    };  
 
+    $scope.changedPage = function(page) {            
+        paginate(page);
+    }
 
+    $scope.$watch('entry', function(term) {  
+        $scope.filtered = filterFilter($scope.domains, term);
+        if (term !== "") {
+            $scope.paginateFiltered = true;
+        }
+        paginate(1);
+    });  
 
     // ===============================================================================
     // SCOPE VALUES
@@ -29,7 +55,12 @@ angular.module('UserAdminApp').controller('DomainCtrl',
 	$scope.entry = '';
     $scope.reverse = false;
     $scope.domains = [];
+    $scope.forbiddenDomains = ['gmail.com', 'yahoo.com', 'mail.com', 'hotmail.com'];
 
+    $scope.itemsPerPage = 10;
+    $scope.currentPage = 1;
+    $scope.maxSize = 5;
+    $scope.paginateFiltered = false;
 
     $scope.$on('$NetworkUpdate', loadNetworkData);
     loadNetworkData();
@@ -50,6 +81,12 @@ angular.module('UserAdminApp').controller('DomainCtrl',
                 return true;
             }
         }
+        for (var i in $scope.forbiddenDomains) {
+            if ($scope.forbiddenDomains[i] == $scope.entry) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -72,4 +109,31 @@ angular.module('UserAdminApp').controller('DomainCtrl',
         paginate();
     };
 
+    $scope.changeMaxItems = function(num) {
+        $scope.itemsPerPage = num;
+        paginate();
+    }
+
+
+})
+.directive('itemsToShow', function() {
+    return {
+      restrict: 'E',
+      scope: {
+        numItems: '=max-items'
+      },
+      template: 'Items = {{scope.numItems}}'
+
+
+    };
+})
+.directive('thing', function ($log) {
+    // allowed event listeners
+    return {
+        restrict: 'E',
+        template:   '{{maxItems}}',
+        scope: {
+            maxItems: '@maxItems'
+        }
+    };
 });

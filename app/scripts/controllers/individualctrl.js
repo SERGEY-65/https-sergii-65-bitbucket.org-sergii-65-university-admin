@@ -1,5 +1,5 @@
 angular.module('UserAdminApp').controller('IndividualCtrl',
-    function ($scope, RestNetworkUser, SessionStorage, Util) {
+    function ($scope, RestNetworkUser, SessionStorage, Util, filterFilter) {
 
     // ===============================================================================
     // PRIVATE FUNCTIONS
@@ -25,17 +25,46 @@ angular.module('UserAdminApp').controller('IndividualCtrl',
                     return false;
                   }
                 });;
+                $scope.totalItems = $scope.individuals.length;
                 //SessionStorage.add('network.' + $scope.network.id + '.invitedusers', $scope.individuals);
                 paginate();
             });
         }
     };
 
-    var paginate = function () {
+    var paginate = function (page) {
+        if (!page) {
+            page = 1;
+        }
+
+        if ($scope.paginateFiltered) {
+            var records = $scope.filtered;
+            $scope.totalItems = $scope.filtered.length;            
+        } else {
+            var records = $scope.individuals;
+        };
+        
+
         $scope.pagination = Util.paginate({
-            items: $scope.individuals
+            items: records,
+            max_items_per_page: $scope.itemsPerPage,
+            current_page: page
         });
-    };
+        
+    };  
+
+    $scope.changedPage = function(page) {            
+        paginate(page);
+    }
+
+
+    $scope.$watch('entry', function(term) {  
+        $scope.filtered = filterFilter($scope.individuals, term);
+        if (term !== "") {
+            $scope.paginateFiltered = true;
+        }
+        paginate(1);
+    });    
 
     // ===============================================================================
     // SCOPE VALUES
@@ -44,6 +73,12 @@ angular.module('UserAdminApp').controller('IndividualCtrl',
     $scope.entry = '';
     $scope.reverse = false;
     $scope.individuals = [];
+
+    $scope.itemsPerPage = 10;
+    $scope.currentPage = 1;
+    $scope.maxSize = 5;
+    $scope.paginateFiltered = false;
+
 
     $scope.$on('$NetworkUpdate', loadNetworkData);
     loadNetworkData();
@@ -88,4 +123,31 @@ angular.module('UserAdminApp').controller('IndividualCtrl',
         paginate();
     };
 
+    $scope.changeMaxItems = function(num) {
+        $scope.itemsPerPage = num;
+        paginate();
+    }
+
+
+})
+.directive('itemsToShow', function() {
+    return {
+      restrict: 'E',
+      scope: {
+        numItems: '=max-items'
+      },
+      template: 'Items = {{scope.numItems}}'
+
+
+    };
+})
+.directive('thing', function ($log) {
+    // allowed event listeners
+    return {
+        restrict: 'E',
+        template:   '{{maxItems}}',
+        scope: {
+            maxItems: '@maxItems'
+        }
+    };
 });

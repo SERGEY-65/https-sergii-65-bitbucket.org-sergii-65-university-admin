@@ -4,7 +4,7 @@
 	<div class="aui-group">
 		<div class="add-block">
 			<form action="" class="aui" name="entryForm">
-				<input type="text" class="text" ng-model="entry" required name="userEntry">
+				<input type="text" class="text" ng-model="entry" required name="userEntry" lowercase>
 				<input type="email" class="text" ng-model="entry" required name="userEmailEntry" style="display:none;">
 				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.userEmailEntry.$valid || exists()">Invite</button>
 			</form>
@@ -13,8 +13,6 @@
 </div>
 
 <div class="aui-group">
-    
-
 	<table class="aui aui-table-interactive aui-table-sortable tablesorter tablesorter-default uac-user-table">
 		<thead>
 			<tr class="tablesorter-headerRow">
@@ -70,25 +68,25 @@
 	</table>
 </div>
 
-	<div class="aui-item" ng-show="totalItems == 0">
-		<br>
-		<p>No users found.</p>
-	</div>
+<div class="aui-item" ng-show="totalItems == 0">
+	<br>
+	<p>No users found.</p>
+</div>
 
 <div class="aui-group aui-group-split">
-	<div class="aui-item" ng-show="filtered.length > 0">
-		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}</p>
+	<div class="aui-item" ng-show="totalItems != 0">
+		<p>{{ pagination.beginning_item }} - {{ pagination.last_item }} of {{ pagination.items.length }}
+            <label for="pagesize">Results per page:</label>
+            <select class="select" id="pagesize" name="pagesize" ng-model="itemsPerPage" ng-change="changeMaxItems(itemsPerPage)">
+                <option value=10>10</option>
+                <option value=20>20</option>
+                <option value=50>50</option>
+                <option value=100>100</option>
+                <option value="{{pagination.items.length}}">All</option>
+            </select>
+		</p>
 	</div>
-
-
-
-
 	<div class="aui-item" ng-show="pagination.num_pages > 1">
-
-
 		<pagination total-items="totalItems" page="pagination.current_page" items-per-page="itemsPerPage" max-size="maxSize" rotate="false" on-select-page="changedPage(page)"></pagination>
-
-
-		
 	</div>
 </div>
