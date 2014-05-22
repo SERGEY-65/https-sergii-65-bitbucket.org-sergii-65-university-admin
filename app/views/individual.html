@@ -4,7 +4,7 @@
 	<div class="aui-group">
 		<div class="add-block">
 			<form class="aui aui-group" name="entryForm">
-				<input type="text" class="text" name="individualEntry" ng-model="entry" required lowercase>
+				<input type="text" class="text" name="individualEntry" ng-model="entry" required lowercase placeholder="Search or Invite">
 				<input type="email" class="text" name="individualEmailEntry" ng-model="entry" required style="display:none;">
 				<button class="aui-button inline-button" ng-click="add()" ng-disabled="!entryForm.individualEmailEntry.$valid || exists()">Invite</button>
 			</form>
