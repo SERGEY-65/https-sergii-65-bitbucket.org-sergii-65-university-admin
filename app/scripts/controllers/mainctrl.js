@@ -48,14 +48,6 @@ angular.module('UserAdminApp').controller('MainCtrl',
 		});
 	});
 
-
-    $scope.changeFriendlyName = function(network) {
-        console.log(network);
-        network.$update();
-        console.log(network);
-    }
-
-
 	$scope.updateNetwork = function () {
 		$scope.$broadcast('$NetworkUpdate');
 	}

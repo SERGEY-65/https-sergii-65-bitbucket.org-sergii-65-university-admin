@@ -10,6 +10,8 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
     var loadNetworkData = function () {
 
         if ($scope.network) {
+            $scope.editName = $scope.network.title;
+
             $scope.licenses = {
                 jira: {
                     id: 0,
@@ -140,8 +142,15 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
     $scope.cancelEdit = function(value) {
         //console.log('Canceled editing', value);
         //alert('Canceled editing of ' + value);
+        $scope.editName = $scope.network.title;
     };    
 
+    $scope.changeFriendlyName = function(network) {
+        console.log(network);
+        $scope.network.title = $scope.editName;
+        network.$update();
+        console.log(network);
+    }
 
 
 
@@ -149,6 +158,7 @@ angular.module('UserAdminApp').controller('LicenseCtrl',
     // SCOPE VALUES
     // ===============================================================================
     $scope.licenses = {}
+    $scope.editName = "";
 
     $scope.$on('$NetworkUpdate', loadNetworkData);
     loadNetworkData();
