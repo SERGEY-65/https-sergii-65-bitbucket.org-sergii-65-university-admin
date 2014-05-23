@@ -93,6 +93,7 @@ angular.module('UserAdminApp').controller('UserCtrl',
             {
                 user.$delete({ user: user.id_user, network: user.id_network });
                 $scope.users = _.without($scope.users, user);
+                $scope.networkUsers = _.without($scope.users, user);;
                 paginate();
             }
         }
