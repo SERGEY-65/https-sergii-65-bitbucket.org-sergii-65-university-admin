@@ -33,6 +33,13 @@
 						<span class="aui-table-header-content">Lessons Completed</span>
 					</div>
 				</th>
+				<th class="tablesorter-header"
+					ng-click="reverse=!reverse;orderField='lastActivity'"
+					ng-class="{ 'tablesorter-headerDesc': reverse, 'tablesorter-headerAsc': !reverse}">
+					<div class="tablesorter-header-inner">
+						<span class="aui-table-header-content">Last Activity</span>
+					</div>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -40,6 +47,9 @@
 				<td><a href="mailto:{{ user.id_user }}">{{ user.id_user }}</a></td>
 				<td>
 					{{ user.progress.length }}
+				</td>
+				<td>
+					{{ user.lastActivity | date:'MM-dd-yyyy HH:MM:ss' }}
 				</td>
 			</tr>
 		</tbody>

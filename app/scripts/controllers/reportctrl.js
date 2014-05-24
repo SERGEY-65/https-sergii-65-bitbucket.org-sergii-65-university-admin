@@ -42,8 +42,16 @@ angular.module('UserAdminApp').controller('ReportCtrl',
         _.each($scope.users, function (user) {
             if (!user.selectedp) {
                 user.progress = [];
+                user.lastActivity = "none";
             } else {
-                user.progress = _.where($scope.networksLessons, {id_user: user.id_user}); //loadUserLessons($scope.network.id, user.id_user);
+                user.progress = _.where($scope.networksLessons, {id_user: user.id_user});
+                user.sorted = _.sortBy(user.progress, function(o) { return o.last_modified.dateTime; }); //loadUserLessons($scope.network.id, user.id_user);
+                user.sorted = user.sorted.reverse();
+                if (0 < user.sorted.length) {
+                    user.lastActivity = user.sorted[0].last_modified;
+                } else {
+                    user.lastActivity = "none";
+                }
             }
         });
         $scope.everythingLoaded = true;
