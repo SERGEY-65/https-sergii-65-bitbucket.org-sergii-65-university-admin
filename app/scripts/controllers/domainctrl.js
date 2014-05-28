@@ -55,7 +55,7 @@ angular.module('UserAdminApp').controller('DomainCtrl',
 	$scope.entry = '';
     $scope.reverse = false;
     $scope.domains = [];
-    $scope.forbiddenDomains = ['gmail.com', 'yahoo.com', 'mail.com', 'hotmail.com'];
+    $scope.forbiddenDomains = ['altavista.com', 'altavista.se', 'angelfire.com', 'aol.com', 'gmail.com', 'hotmail.co.il', 'hotmail.com', 'hotmail.fr', 'hotmail.kg', 'hotmail.kz', 'hotmail.ru', 'icloud.com', 'netscape.net', 'outlook.com', 'yahoo.ca', 'yahoo.co.in', 'yahoo.co.jp', 'yahoo.co.kr', 'yahoo.co.nz', 'yahoo.co.uk', 'yahoo.com', 'yahoo.com.ar', 'yahoo.com.au', 'yahoo.com.br', 'yahoo.com.cn', 'yahoo.com.hk', 'yahoo.com.is', 'yahoo.com.mx', 'yahoo.com.ru', 'yahoo.com.sg', 'yahoo.de', 'yahoo.dk', 'yahoo.es', 'yahoo.fr', 'yahoo.ie', 'yahoo.it', 'yahoo.jp', 'yahoo.ru', 'yahoo.se', 'outlook.com', 'mail.com'];
 
     $scope.itemsPerPage = 10;
     $scope.currentPage = 1;
