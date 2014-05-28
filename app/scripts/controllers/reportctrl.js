@@ -42,7 +42,7 @@ angular.module('UserAdminApp').controller('ReportCtrl',
         _.each($scope.users, function (user) {
             if (!user.selectedp) {
                 user.progress = [];
-                user.lastActivity = "none";
+                user.lastActivity = "00-00-0000 00:00:00";
             } else {
                 user.progress = _.where($scope.networksLessons, {id_user: user.id_user});
                 user.sorted = _.sortBy(user.progress, function(o) { return o.last_modified.dateTime; }); //loadUserLessons($scope.network.id, user.id_user);
@@ -50,7 +50,7 @@ angular.module('UserAdminApp').controller('ReportCtrl',
                 if (0 < user.sorted.length) {
                     user.lastActivity = user.sorted[0].last_modified;
                 } else {
-                    user.lastActivity = "none";
+                    user.lastActivity = "00-00-0000 00:00:00";
                 }
             }
         });
