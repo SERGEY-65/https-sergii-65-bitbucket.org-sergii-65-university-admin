@@ -72,7 +72,7 @@ angular.module('UserAdminApp').controller('MainCtrl',
 			selected: false
 		},
 		{
-			name: 'Domain Access',
+			name: 'Allowed Domains',
 			path: '#/domains',
 			selected: false
 		},

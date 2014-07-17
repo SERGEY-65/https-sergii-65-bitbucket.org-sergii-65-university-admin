@@ -50,7 +50,7 @@ describe('Controller: MainCtrl', function() {
   });
 
   it('The first page should be domains, and should be selected', function () {
-    expect($scope.pages[0].name).toBe('Domain Access');
+    expect($scope.pages[0].name).toBe('Allowed Domains');
     expect($scope.pages[1].name).toBe('Individual Access');
     expect($scope.pages[0].selected).toBeTruthy();
   });
