@@ -67,7 +67,7 @@ angular.module('UserAdminApp').controller('MainCtrl',
 			selected: false
 		},
 		{
-			name: 'Invited Emails',
+			name: 'Allowed Emails',
 			path: '#/individual',
 			selected: false
 		},
