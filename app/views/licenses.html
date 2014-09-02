@@ -32,7 +32,7 @@
             <th id="basic-sen">SEN</th>
             <th id="basic-expiration">Expiration</th>
             <th id="basic-versions">Visible Versions</th>
-            <th id="basic-action">Action</th>
+            <!-- <th id="basic-action">Action</th> -->
         </tr>
     </thead>
     <tbody ng-repeat="license in licenses | orderBy:id" >
@@ -67,10 +67,10 @@
 						</div>
 					</div>
             </td>
-            <td headers="basic-action">
-				<a class="aui-button" ng-show="license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Renew/Upgrade</a>
-				<a class="aui-button" ng-show="!license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Buy</a>
-            </td>
+            <!-- <td headers="basic-action"> -->
+	    <!-- 			<a class="aui-button" ng-show="license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Renew/Upgrade</a> -->
+	    <!-- 			<a class="aui-button" ng-show="!license.purchased" href="https://www.atlassian.com/purchase/university" target="_blank">Buy</a> -->
+            <!-- </td> -->
         </tr>
     </tbody>
 </table>
