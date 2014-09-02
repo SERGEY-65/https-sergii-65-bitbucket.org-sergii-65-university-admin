@@ -4,7 +4,7 @@
 			<div class="field-group">
 				<label for="network-name"><strong>Network Name:</strong></label>
 				<div inline-edit="editName" on-save="changeFriendlyName(network)" on-cancel="cancelEdit(network.title)">
-			        As of September 5th, 2014 all walkthroughs on Atlassian University are free. All license information below is for reference only.  <b>You can now invite unlimited users in your network and all users will have access to all content.</b>
+			        <div> As of September 5th, 2014 all walkthroughs on Atlassian University are free. All license information below is for reference only.  <b>You can now invite unlimited users in your network and all users will have access to all content.</b></div>
 				  <input type="text" class="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">
 				  <button ng-click="cancel()" ng-show="editMode">cancel</button>
 				  <button ng-click="save()" ng-show="editMode">save</button>
@@ -16,6 +16,13 @@
 			</div>
 		</fieldset>
 	</form>
+</div>
+
+<div class="announcement-div2">
+  As of September 5th, 2014 all walkthroughs on Atlassian University
+  are free. All license information below is for reference
+  only. <b>You can now invite unlimited users in your network and all
+  users will have access to all content.</b>
 </div>
 
 <table class="aui" ng-show="everythingLoaded">
